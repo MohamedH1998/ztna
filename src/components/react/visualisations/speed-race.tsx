@@ -3,7 +3,11 @@ import { motion } from "motion/react";
 import { cn } from "../../../lib/utils";
 import Tab from "../tab";
 import { ControlButton } from "../controls";
-import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
+import {
+  VisualizationBody,
+  VisualizationContainer,
+  VisualizationHeader,
+} from "./layout";
 
 const SCENARIOS = {
   gateway: {
@@ -142,7 +146,7 @@ const SpeedRace = () => {
   return (
     <VisualizationContainer>
       {/* Header & Controls */}
-      <VisualizationHeader className="border-t">
+      <VisualizationHeader className="md:border-t">
         <Tab
           items={(Object.keys(SCENARIOS) as Array<keyof typeof SCENARIOS>).map(
             (key) => ({
@@ -158,21 +162,21 @@ const SpeedRace = () => {
             Reset
           </ControlButton>
           <ControlButton onClick={handleRace} disabled={racing || completed}>
-            {racing ? "Testing..." : "Run Test"}
+            Run
           </ControlButton>
         </div>
       </VisualizationHeader>
 
       {/* Visualization Area */}
       <VisualizationBody className="bg-neutral-50 dark:bg-black border-b border-neutral-200 dark:border-neutral-800 p-8">
-        <div className="mb-8 text-center max-w-lg mx-auto">
+        <div className="mb-10 text-center max-w-lg mx-auto">
           <h4 className="font-mono text-[10px] font-medium uppercase tracking-widest mb-1 text-neutral-900 dark:text-neutral-100">
             {currentScenario.title}
           </h4>
           <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-wide mb-2">
             {currentScenario.subtitle}
           </p>
-          <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          <p className="hidden md:block text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
             {currentScenario.description}
           </p>
         </div>

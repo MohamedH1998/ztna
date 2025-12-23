@@ -145,7 +145,7 @@ const Decision: React.FC = () => {
         onReplay={handleReset}
       />
 
-      <VisualizationBody ref={containerRef} className="px-4 py-8 md:p-12">
+      <VisualizationBody ref={containerRef} className="px-4 py-8 md:p-12 bg-neutral-50 dark:bg-neutral-900">
         <div className="grid grid-cols-3 gap-y-12 gap-x-4 md:gap-x-8 justify-items-center">
           <AtomWrapper ref={userRef}>
             <User

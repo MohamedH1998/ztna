@@ -62,7 +62,7 @@ const Legend = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="w-full p-4 hidden md:block">
+    <div className="w-full p-4 hidden md:block border-t border-neutral-200 dark:border-neutral-800">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-8">
         {LEGEND_ITEMS.map((item, index) => (
           <div

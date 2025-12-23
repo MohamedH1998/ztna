@@ -16,7 +16,7 @@ export const VisualizationContainer = forwardRef<
       ref={ref}
       className={cn(
         "w-full bg-white dark:bg-neutral-900 overflow-hidden",
-        className,
+        className
       )}
       {...props}
     >
@@ -40,7 +40,7 @@ export const VisualizationHeader = forwardRef<
     <div
       ref={ref}
       className={cn(
-        "flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900",
+        "flex items-center justify-between px-4 py-3 border-y md:border-t-0 border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900",
         className
       )}
       {...props}

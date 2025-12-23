@@ -50,11 +50,11 @@ export const TickRulerPill: React.FC<TickRulerPillProps> = ({
   return (
     <div
       className={cn(
-        "w-fit relative flex flex-col items-center justify-center border border-neutral-200 dark:border-neutral-800 px-2 py-2 select-none rounded-none [--tick-rgb:0,0,0] dark:[--tick-rgb:255,255,255]",
+        "w-fit relative flex flex-col items-center justify-center border border-neutral-200 dark:border-neutral-800 md:px-2 py-2 select-none rounded-none [--tick-rgb:0,0,0] dark:[--tick-rgb:255,255,255] shadow-xs",
         className
       )}
     >
-      <span className="whitespace-nowrap font-medium text-neutral-800 font-mono uppercase text-xs">
+      <span className="whitespace-nowrap font-medium text-neutral-800 font-mono uppercase text-[10px] md:text-xs">
         {label}
       </span>
       {/* Ruler */}

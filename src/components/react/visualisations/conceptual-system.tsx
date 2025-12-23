@@ -80,7 +80,7 @@ const ConceptualSystem: React.FC = () => {
   return (
     <VisualizationContainer className="max-w-4xl mx-auto">
       {/* Controls */}
-      <VisualizationHeader>
+      <VisualizationHeader className="">
         <div className="flex items-center gap-6">
           <Tab
             activeTab={requestType}

@@ -2,7 +2,11 @@ import { useState } from "react";
 
 import { AbstractPlane } from "../svg/atoms/abstract-plane";
 import type { AbstractPlaneProps } from "../svg/atoms/abstract-plane";
-import { VisualizationBody, VisualizationContainer } from "./layout";
+import {
+  VisualizationBody,
+  VisualizationContainer,
+  VisualizationHeader,
+} from "./layout";
 
 interface StackAbstractProps {
   activeGates?: number;
@@ -66,7 +70,7 @@ const AbstractLegend = () => {
       },
     },
     {
-      label: "Application",
+      label: "App",
       props: {
         active: false,
         pattern: "solid",
@@ -133,7 +137,7 @@ const StackAbstract: React.FC<StackAbstractProps> = ({
     }, // Transport = Dots (Particles)
     {
       id: "L6",
-      label: "APPLICATION",
+      label: "APP",
       active: false,
       pattern: "solid",
       outline: "solid",
@@ -184,20 +188,13 @@ const StackAbstract: React.FC<StackAbstractProps> = ({
 
 const StackShowcase = () => {
   return (
-    <VisualizationContainer>
+    <VisualizationContainer className="border-t md:border-none border-neutral-200 dark:border-neutral-800">
+      <AbstractLegend />
       <VisualizationBody className="w-full space-y-4 bg-neutral-50 dark:bg-neutral-900">
-        <div className="">
-          <div className="">
-            <div className="mb-4 text-center">
-              <div className="w-full">
-                <AbstractLegend />
-              </div>
-            </div>
-            <div className="w-full">
-              <StackAbstract activeGates={3} stackOffset={15} />
-            </div>
-          </div>
+        <div className="w-full">
+          <StackAbstract activeGates={3} stackOffset={15} />
         </div>
+
         <span className="py-2 text-center w-full block text-[10px] font-mono uppercase tracking-widest text-neutral-500">
           [Hover over layers]
         </span>
