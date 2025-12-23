@@ -20,3 +20,16 @@ export const COLORS = {
 } as const;
 
 export type ColorKey = keyof typeof COLORS;
+
+export const ANIMATION_CONFIG = {
+  duration: 0.6,
+  ease: [0.16, 1, 0.3, 1] as const,
+  scale: {
+    active: 1.15,
+    inactive: 1,
+  },
+} as const;
+
+export const ANIMATION_STEP_DURATION = 0.8;
+
+export type AnimationConfig = typeof ANIMATION_CONFIG;

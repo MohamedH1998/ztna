@@ -8,7 +8,11 @@ import Layout from "../layouts/Layout.astro";
 import Section from "../components/layout/section.astro";
 
 // Visualisations
-import AttackSurface from "../components/react/visualisations/attack-surface";  
+import {
+  AttackSurface,
+  ConceptualSystem,
+  StackShowcase,
+} from "../components/react/visualisations";
 
 const zeroTrustEntries = await getCollection("products", ({ data }) => {
   return data.product === "zero-trust";
@@ -76,6 +80,12 @@ const ztnaCopy = Array.from(sectionMap.values())
           >
             <div slot="inner-content">
               {section.id === "the-shift" && <AttackSurface client:visible />}
+              {section.id === "the-mechanism" && (
+                <ConceptualSystem client:visible />
+              )}
+              {section.id === "the-primitives" && (
+                <StackShowcase client:visible />
+              )}
             </div>
           </Section>
         ))
