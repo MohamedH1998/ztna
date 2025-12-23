@@ -9,6 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.6"
+    "@fontsource/cormorant": "^5.2.8",
+    "@fontsource/dm-mono": "^5.2.7",
+    "@fontsource/inter-tight": "^5.2.7",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.6",
+    "clsx": "^2.1.1",
+    "nanostores": "^1.1.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18"
   }
 }

@@ -1,0 +1,85 @@
+---
+const {
+  title,
+  description,
+  url,
+  image,
+  twitterCard,
+  twitterSite,
+  twitterCreator,
+  twitterTitle,
+  twitterDescription,
+  keywords,
+} = Astro.props;
+const ogImage = image || "/og-image.png";
+const siteUrl = url || new URL(Astro.url.href);
+const canonicalURL = siteUrl.origin + Astro.url.pathname;
+const ogImageURL = siteUrl.origin + ogImage;
+---
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Prevent FOUC (Flash of Unstyled Content) for dark mode -->
+  <script is:inline>
+    const theme = (() => {
+      if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+        return localStorage.getItem("theme");
+      }
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+      return "light";
+    })();
+
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  </script>
+
+  <!-- Primary Meta Tags -->
+  <title>{title || "Mohamed Hassan | Product Engineer in London"}</title>
+  <meta name="title" content={title || "Mohamed Hassan | Product Engineer in London"} />
+  <meta name="description" content={description || "Product Engineer in London"} />
+  {keywords && <meta name="keywords" content={keywords} />}
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title || "Mohamed Hassan | Product Engineer in London"} />
+  <meta property="og:description" content={description || "Product Engineer in London"} />
+  <meta property="og:image" content={ogImageURL} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content={twitterCard} />
+  <meta property="twitter:url" content={canonicalURL} />
+  <meta property="twitter:title" content={title || "Mohamed Hassan | Product Engineer in London"} />
+  <meta property="twitter:description" content={description || "Product Engineer in London"} />
+  <meta property="twitter:image" content={ogImageURL} />
+  <meta property="twitter:site" content={twitterSite} />
+  <meta property="twitter:creator" content={twitterCreator} />
+  <meta
+    property="twitter:title"
+    content={twitterTitle || "Mohamed Hassan | Product Engineer in London"}
+  />
+  <meta
+    property="twitter:description"
+    content={twitterDescription || "Product Engineer in London"}
+  />
+  <meta property="twitter:image" content={ogImageURL} />
+
+  <link rel="canonical" href={canonicalURL} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  /><link
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet"
+  />
+</head>

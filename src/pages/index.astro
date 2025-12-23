@@ -1,16 +1,71 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
 
+import { getCollection } from "astro:content";
+
+// Fetch content from collections
+const zeroTrustEntries = await getCollection("products", ({ data }) => {
+  return data.product === "zero-trust";
+});
+
+// Group by section and depth
+const sectionMap = new Map();
+zeroTrustEntries.forEach((entry) => {
+  const key = entry.data.section.id;
+  if (!sectionMap.has(key)) {
+    sectionMap.set(key, {
+      section: entry.data.section,
+      content: { beginner: [], technical: [], deep: [] },
+    });
+  }
+  // Split markdown content by paragraphs for innerText format
+  const paragraphs = entry.body
+    .trim()
+    .split("\n\n")
+    .filter((p) => p.trim());
+  sectionMap.get(key).content[entry.data.depth] = paragraphs;
+});
+
+// Sort sections by order
+const ztnaCopy = Array.from(sectionMap.values())
+  .sort((a, b) => a.section.order - b.section.order)
+  .map(({ section, content }) => ({
+    id: section.id,
+    badgeTitle: section.badgeTitle,
+    title: section.title,
+    description: section.description,
+    alignment: section.alignment,
+    innerText: content,
+  }));
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <main
+    class="text-neutral-900 dark:text-neutral-100 font-sans min-h-screen bg-white dark:bg-neutral-950 relative"
+  >
+    <section
+      id="overview"
+      class="flex flex-col items-center justify-center p-8 py-20 text-center border-t border-neutral-200 dark:border-neutral-800 border-b border-neutral-200 dark:border-neutral-800"
+    >
+      <h1 class="text-4xl md:text-6xl font-semibold mb-4 font-cormorant">
+        Zero trust access network
+      </h1>
+      <p class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl">
+        An interactive guide to Cloudflare's Zero trust access network.
+      </p>
+    </section>
+    <section
+      class="flex flex-col items-start justify-center md:justify-start relative w-full"
+    >
+      {
+        ztnaCopy.map((section) => (
+          <div>
+            <h2>{section.title}</h2>
+            <p>{section.description}</p>
+          </div>
+        ))
+      }
+    </section>
+  </main>
+</Layout>

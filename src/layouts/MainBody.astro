@@ -1,0 +1,37 @@
+---
+import { getCollection } from "astro:content";
+import "../styles/global.css";
+
+// Fetch unique sections for sidebar
+const zeroTrustEntries = await getCollection("products", ({ data }) => {
+  return data.product === "zero-trust";
+});
+
+// Get unique sections sorted by order
+const sections = new Map();
+zeroTrustEntries.forEach((entry) => {
+  const { id, badgeTitle, order } = entry.data.section;
+  if (!sections.has(id)) {
+    sections.set(id, { id, badgeTitle, order });
+  }
+});
+
+const ztnaCopy = Array.from(sections.values()).sort(
+  (a, b) => a.order - b.order
+);
+---
+
+<body
+  class="min-h-screen flex text-neutral-900 dark:text-neutral-100 dark:bg-neutral-950"
+>
+  <ul class="flex flex-col gap-4">
+    {ztnaCopy.map((section) => <li>{section.badgeTitle}</li>)}
+  </ul>
+  <div class="flex-1 overflow-x-hidden">
+    <main class="min-h-screen">
+      <div class="">
+        <slot />
+      </div>
+    </main>
+  </div>
+</body>
