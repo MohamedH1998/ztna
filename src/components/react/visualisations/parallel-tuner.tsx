@@ -4,12 +4,21 @@ import { cn } from "../../../lib/utils";
 import Slider from "../slider";
 import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
-// Generate a random permutation of 0..99 once to ensure stable random fill order
+// Generate a deterministic permutation of 0..99 to ensure stable hydration
 const generateShuffledIndices = () => {
   const indices = Array.from({ length: 100 }, (_, i) => i);
-  // Fisher-Yates shuffle
+  
+  // Simple deterministic random number generator (LCG)
+  // Prevents hydration mismatches between server and client
+  let seed = 42;
+  const random = () => {
+    seed = (seed * 1664525 + 1013904223) % 4294967296;
+    return seed / 4294967296;
+  };
+
+  // Fisher-Yates shuffle with deterministic random
   for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [indices[i], indices[j]] = [indices[j], indices[i]];
   }
   return indices;
