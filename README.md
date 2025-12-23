@@ -1,43 +1,35 @@
-# Astro Starter Kit: Minimal
+# Zero Trust Network Access (ZTNA) Visualizer
 
-```sh
-pnpm create astro@latest -- --template minimal
+An interactive educational platform designed to explain Zero Trust concepts through dynamic visualizations. Built with Astro, React, and Motion.
+
+## Features
+
+- **Interactive Visualizations**:
+  - **Attack Surface**: Castle & Moat vs. Zero Trust architecture.
+  - **Blast Radius**: Impact containment analysis.
+  - **Parallel Tuner**: Migration strategy tuning.
+  - **Speed Race**: Performance comparison (Gateway, Access, RBI).
+  - **Stack Showcase**: Multi-layer security stack inspection.
+  - **Truth Table**: Policy evaluation logic explorer.
+- **Adaptive Content**: Content switching between Beginner, Deep Dive, and Technical levels.
+- **Responsive Design**: Mobile-friendly interactive elements.
+
+## Tech Stack
+
+- **Framework**: [Astro](https://astro.build/)
+- **UI Library**: [React](https://react.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animation**: [Motion](https://motion.dev/)
+- **State Management**: [Nanostores](https://github.com/nanostores/nanostores)
+
+## Quick Start
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Visit `http://localhost:4321` to view the project.
