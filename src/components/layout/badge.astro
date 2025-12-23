@@ -1,0 +1,36 @@
+---
+import { cn } from "../../lib/utils";
+interface Props {
+  title: string;
+  variant?: "default" | "secondary";
+  size?: "xs" | "sm" | "md";
+  className?: string;
+}
+
+const { title, variant, size, className } = Astro.props;
+
+const BADGE_VARIANT_CLASSES = {
+  default: "hover:bg-neutral-50 dark:hover:bg-neutral-900",
+  secondary:
+    "bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-950 text-gray-500 dark:text-gray-700",
+};
+
+const BADGE_SIZE_CLASSES = {
+  xs: "py-2 px-4 text-[11px]",
+  sm: "py-2 px-4 text-xs",
+  md: "py-2 px-4 text-sm",
+};
+
+const variantClass = BADGE_VARIANT_CLASSES[variant || "default"];
+---
+
+<div
+  class={cn(
+    "flex items-center justify-start w-full h-full border-r last:border-r-0 border-neutral-200 dark:border-neutral-800 p-3 first:border-t",
+    variantClass,
+    BADGE_SIZE_CLASSES[size || "xs"],
+    className
+  )}
+>
+  <p class="font-mono uppercase tracking-wider text-center">{title}</p>
+</div>

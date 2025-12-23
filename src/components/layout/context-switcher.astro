@@ -1,0 +1,119 @@
+---
+import type { Depth } from "../../stores/depthStore";
+
+interface Props {
+  innerText: Record<Depth, string[]>;
+}
+
+const { innerText } = Astro.props;
+---
+
+<div class="content-switcher">
+  <div class="content-variant" data-depth="beginner">
+    {
+      innerText.beginner.map((text) => (
+        <p
+          class="text-sm text-gray-700 dark:text-neutral-300 leading-relaxed m-0 mb-3"
+          set:html={text}
+        />
+      ))
+    }
+  </div>
+
+  <div class="content-variant" data-depth="technical">
+    {
+      innerText.technical.map((text) => (
+        <p
+          class="text-sm text-gray-700 dark:text-neutral-300 leading-relaxed m-0 mb-3"
+          set:html={text}
+        />
+      ))
+    }
+  </div>
+
+  <div class="content-variant" data-depth="deep">
+    {
+      innerText.deep.map((text) => (
+        <p
+          class="text-sm text-gray-700 dark:text-neutral-300 leading-relaxed m-0 mb-3"
+          set:html={text}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .content-switcher {
+    position: relative;
+  }
+
+  .content-variant {
+    opacity: 0;
+    display: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .content-variant.active {
+    opacity: 1;
+    display: block;
+    animation: contentEnter 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes contentEnter {
+    from {
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .content-variant.active {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { depthStore } from "../../stores/depthStore";
+
+  // Initialize all content switchers on the page
+  function initContentSwitchers() {
+    const switchers = document.querySelectorAll(".content-switcher");
+
+    switchers.forEach((switcher) => {
+      const variants = switcher.querySelectorAll(".content-variant");
+
+      // Set initial depth
+      const currentDepth = depthStore.get();
+      variants.forEach((variant) => {
+        if (variant.getAttribute("data-depth") === currentDepth) {
+          variant.classList.add("active");
+        }
+      });
+
+      // Subscribe to depth changes
+      depthStore.subscribe((depth) => {
+        variants.forEach((variant) => {
+          if (variant.getAttribute("data-depth") === depth) {
+            variant.classList.add("active");
+          } else {
+            variant.classList.remove("active");
+          }
+        });
+      });
+    });
+  }
+
+  // Run on initial load
+  initContentSwitchers();
+
+  // Re-run after page navigation (for view transitions)
+  document.addEventListener("astro:page-load", initContentSwitchers);
+</script>

@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import "../styles/global.css";
-import Sidebar from "../components/sidebar";
+import Sidebar from "../components/react/sidebar";
 
 // Fetch unique sections for sidebar
 const zeroTrustEntries = await getCollection("products", ({ data }) => {

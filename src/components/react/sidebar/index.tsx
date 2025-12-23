@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
 
 type TocItem = { id: string; label: string };
 
@@ -19,16 +19,6 @@ export default function Sidebar({
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const activeIdRef = useRef(activeId);
   activeIdRef.current = activeId;
-
-  // If you want numbers stable + cheap, this is fine; otherwise you can inline it.
-  const numbered = useMemo(
-    () =>
-      items.map((item, i) => ({
-        ...item,
-        num: String(i + 1).padStart(2, "0"),
-      })),
-    [items]
-  );
 
   useEffect(() => {
     if (!items.length) return;
@@ -83,7 +73,6 @@ export default function Sidebar({
   }, [items, topOffset]);
 
   const scrollTo = useCallback((id: string) => {
-    console.log("scrollTo", id);
     // Let IntersectionObserver drive activeId; don’t eagerly set state.
     document
       .getElementById(id)
@@ -113,7 +102,7 @@ export default function Sidebar({
             </div>
 
             <ul>
-              {numbered.map((item, idx) => {
+              {items.map((item, idx) => {
                 const isActive = item.id === activeId;
                 return (
                   <li key={item.id}>
@@ -139,11 +128,11 @@ export default function Sidebar({
                         )}
                       />
                       <span className="flex items-center gap-3">
-                        <span className="w-7 text-gray-400">{item.num}</span>
+                        <span className="w-7 text-gray-400">{idx + 1}</span>
                         <span className="truncate">{item.label}</span>
                       </span>
                     </button>
-                    {idx === numbered.length - 1 && (
+                    {idx === items.length - 1 && (
                       <div className="border-b border-neutral-200 dark:border-neutral-800" />
                     )}
                   </li>

@@ -1,5 +1,5 @@
 import { motion as m } from "motion/react";
-import { COLORS, cn } from "../../../lib/utils";
+import { COLORS, cn } from "../../../../lib/utils";
 
 interface AppProps {
   active?: boolean;

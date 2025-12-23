@@ -1,43 +1,39 @@
 import { motion as m } from "motion/react";
-import { COLORS, cn } from "../../../lib/utils";
+import { COLORS, cn } from "../../../../lib/utils";
 
-
-interface IdPProps {
+interface GatewayProps {
   active?: boolean;
   x: number;
   y: number;
   label?: string;
 }
 
-export const IdP = ({ active = false, x, y, label }: IdPProps) => {
-  // Original shape was centered at x=126, y=20
-  // Calculate offset from original position
-  const offsetX = x - 109.18;
-  const offsetY = y - 0.576172;
-
-  const centerX = x + 16.82;
-  const centerY = y + 19.424;
+export const Gateway = ({ active = false, x, y, label }: GatewayProps) => {
+  const centerX = x + 37;
+  const centerY = y + 37;
 
   return (
     <g>
-      <path
-        d={`M${offsetX + 142.82} ${offsetY + 10.2881}V${offsetY + 29.7109}L${
-          offsetX + 126
-        } ${offsetY + 39.4229}L${offsetX + 109.18} ${offsetY + 29.7109}V${
-          offsetY + 10.2881
-        }L${offsetX + 126} ${offsetY + 0.576172}L${offsetX + 142.82} ${offsetY + 10.2881}Z`}
+      <rect
+        x={x}
+        y={y}
+        width="74"
+        height="74"
+        rx="37"
         stroke={active ? COLORS.active : "#b1b1bc"}
         fill="white"
         className="transition-colors duration-500"
       />
-      <m.circle
-        cx={centerX}
-        cy={centerY}
-        r="10"
+      <m.rect
+        x={x + 11.5}
+        y={y + 11.5}
+        width="51"
+        height="51"
+        rx="25.5"
         fill={active ? COLORS.active : "#b1b1bc"}
         initial={false}
         animate={{
-          scale: active ? 1.3 : 1,
+          scale: active ? 1.35 : 1,
         }}
         style={{
           transformOrigin: `${centerX}px ${centerY}px`,
@@ -51,7 +47,7 @@ export const IdP = ({ active = false, x, y, label }: IdPProps) => {
         <>
           <rect
             x={centerX - (label.length * 6 + 8) / 2}
-            y={y + 43}
+            y={y + 77}
             width={label.length * 6 + 8}
             height="16"
             fill="white"
@@ -60,7 +56,7 @@ export const IdP = ({ active = false, x, y, label }: IdPProps) => {
           />
           <text
             x={centerX}
-            y={y + 53.5}
+            y={y + 87.5}
             textAnchor="middle"
             className={cn(
               "font-mono text-[8px] uppercase tracking-wider transition-colors duration-200 fill-current",

@@ -1,0 +1,16 @@
+---
+interface Props {
+  class?: string;
+  orientation?: "horizontal" | "vertical";
+}
+
+const { class: className, orientation = "horizontal" } = Astro.props;
+---
+
+<hr
+  class:list={[
+    "bg-neutral-200 dark:bg-neutral-700 border-none",
+    orientation === "vertical" ? "h-auto w-px" : "h-px w-full",
+    className,
+  ]}
+/>

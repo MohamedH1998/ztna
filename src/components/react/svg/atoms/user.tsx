@@ -1,39 +1,51 @@
 import { motion as m } from "motion/react";
-import { COLORS, cn } from "../../../lib/utils";
+import { COLORS, cn } from "../../../../lib/utils";
 
-interface GatewayProps {
+interface UserProps {
   active?: boolean;
   x: number;
   y: number;
   label?: string;
+  width?: number;
+  rx?: number;
+  ry?: number;
+  height?: number;
 }
 
-export const Gateway = ({ active = false, x, y, label }: GatewayProps) => {
-  const centerX = x + 37;
-  const centerY = y + 37;
+export const User = ({
+  active = false,
+  x,
+  y,
+  label,
+  width = 33,
+  height = 33,
+  rx = 16.5,
+  ry = 16.5,
+}: UserProps) => {
+  const centerX = x + 16.5;
+  const centerY = y + 16.5;
 
   return (
     <g>
       <rect
         x={x}
         y={y}
-        width="74"
-        height="74"
-        rx="37"
+        width={width}
+        height={height}
+        rx={rx}
+        ry={ry}
         stroke={active ? COLORS.active : "#b1b1bc"}
         fill="white"
         className="transition-colors duration-500"
       />
-      <m.rect
-        x={x + 11.5}
-        y={y + 11.5}
-        width="51"
-        height="51"
-        rx="25.5"
+      <m.circle
+        cx={centerX}
+        cy={centerY}
+        r="5"
         fill={active ? COLORS.active : "#b1b1bc"}
         initial={false}
         animate={{
-          scale: active ? 1.35 : 1,
+          scale: active ? 1.15 : 1,
         }}
         style={{
           transformOrigin: `${centerX}px ${centerY}px`,
@@ -47,7 +59,7 @@ export const Gateway = ({ active = false, x, y, label }: GatewayProps) => {
         <>
           <rect
             x={centerX - (label.length * 6 + 8) / 2}
-            y={y + 77}
+            y={y + 36}
             width={label.length * 6 + 8}
             height="16"
             fill="white"
@@ -56,7 +68,7 @@ export const Gateway = ({ active = false, x, y, label }: GatewayProps) => {
           />
           <text
             x={centerX}
-            y={y + 87.5}
+            y={y + 46.5}
             textAnchor="middle"
             className={cn(
               "font-mono text-[8px] uppercase tracking-wider transition-colors duration-200 fill-current",

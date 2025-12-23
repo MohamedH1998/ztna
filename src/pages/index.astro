@@ -1,16 +1,19 @@
 ---
-import Legend from "../components/legend";
-import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 
 import { getCollection } from "astro:content";
 
-// Fetch content from collections
+import Legend from "../components/react/legend";
+import Layout from "../layouts/Layout.astro";
+import Section from "../components/layout/section.astro";
+
+// Visualisations
+import AttackSurface from "../components/react/visualisations/attack-surface";  
+
 const zeroTrustEntries = await getCollection("products", ({ data }) => {
   return data.product === "zero-trust";
 });
 
-// Group by section and depth
 const sectionMap = new Map();
 zeroTrustEntries.forEach((entry) => {
   const key = entry.data.section.id;
@@ -20,7 +23,7 @@ zeroTrustEntries.forEach((entry) => {
       content: { beginner: [], technical: [], deep: [] },
     });
   }
-  // Split markdown content by paragraphs for innerText format
+
   const paragraphs = entry.body
     .trim()
     .split("\n\n")
@@ -28,7 +31,6 @@ zeroTrustEntries.forEach((entry) => {
   sectionMap.get(key).content[entry.data.depth] = paragraphs;
 });
 
-// Sort sections by order
 const ztnaCopy = Array.from(sectionMap.values())
   .sort((a, b) => a.section.order - b.section.order)
   .map(({ section, content }) => ({
@@ -64,10 +66,18 @@ const ztnaCopy = Array.from(sectionMap.values())
       <Legend client:visible />
       {
         ztnaCopy.map((section) => (
-          <div>
-            <h2>{section.title}</h2>
-            <p>{section.description}</p>
-          </div>
+          <Section
+            badgeTitle={section.badgeTitle}
+            id={section.id}
+            title={section.title}
+            description={section.description}
+            innerText={section.innerText}
+            alignment={section.alignment}
+          >
+            <div slot="inner-content">
+              {section.id === "the-shift" && <AttackSurface client:visible />}
+            </div>
+          </Section>
         ))
       }
     </section>

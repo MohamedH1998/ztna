@@ -1,39 +1,32 @@
 import { motion as m } from "motion/react";
-import { COLORS, cn } from "../../../lib/utils";
+import { COLORS, cn } from "../../../../lib/utils";
 
-interface UserProps {
+interface IdPProps {
   active?: boolean;
   x: number;
   y: number;
   label?: string;
-  width?: number;
-  rx?: number;
-  ry?: number;
-  height?: number;
 }
 
-export const User = ({
-  active = false,
-  x,
-  y,
-  label,
-  width = 33,
-  height = 33,
-  rx = 16.5,
-  ry = 16.5,
-}: UserProps) => {
-  const centerX = x + 16.5;
-  const centerY = y + 16.5;
+export const IdP = ({ active = false, x, y, label }: IdPProps) => {
+  // Original shape was centered at x=126, y=20
+  // Calculate offset from original position
+  const offsetX = x - 109.18;
+  const offsetY = y - 0.576172;
+
+  const centerX = x + 16.82;
+  const centerY = y + 19.424;
 
   return (
     <g>
-      <rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        rx={rx}
-        ry={ry}
+      <path
+        d={`M${offsetX + 142.82} ${offsetY + 10.2881}V${offsetY + 29.7109}L${
+          offsetX + 126
+        } ${offsetY + 39.4229}L${offsetX + 109.18} ${offsetY + 29.7109}V${
+          offsetY + 10.2881
+        }L${offsetX + 126} ${offsetY + 0.576172}L${offsetX + 142.82} ${
+          offsetY + 10.2881
+        }Z`}
         stroke={active ? COLORS.active : "#b1b1bc"}
         fill="white"
         className="transition-colors duration-500"
@@ -41,11 +34,11 @@ export const User = ({
       <m.circle
         cx={centerX}
         cy={centerY}
-        r="5"
+        r="10"
         fill={active ? COLORS.active : "#b1b1bc"}
         initial={false}
         animate={{
-          scale: active ? 1.15 : 1,
+          scale: active ? 1.3 : 1,
         }}
         style={{
           transformOrigin: `${centerX}px ${centerY}px`,
@@ -59,7 +52,7 @@ export const User = ({
         <>
           <rect
             x={centerX - (label.length * 6 + 8) / 2}
-            y={y + 36}
+            y={y + 43}
             width={label.length * 6 + 8}
             height="16"
             fill="white"
@@ -68,7 +61,7 @@ export const User = ({
           />
           <text
             x={centerX}
-            y={y + 46.5}
+            y={y + 53.5}
             textAnchor="middle"
             className={cn(
               "font-mono text-[8px] uppercase tracking-wider transition-colors duration-200 fill-current",
