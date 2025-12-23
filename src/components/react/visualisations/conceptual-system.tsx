@@ -6,8 +6,10 @@ import { User, Gateway, App, AtomWrapper } from "../svg/atoms";
 import Tab from "../tab";
 import Controls from "../controls";
 import { useIsMobile } from "../../../hooks/useIsMobile";
+import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
 // --- Constants ---
+
 
 type RequestType = "initial" | "subsequent";
 
@@ -76,9 +78,9 @@ const ConceptualSystem: React.FC = () => {
   const ztAppActive = activeStep >= 3;
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-neutral-900">
+    <VisualizationContainer className="max-w-4xl mx-auto">
       {/* Controls */}
-      <div className="flex justify-between items-center p-4">
+      <VisualizationHeader>
         <div className="flex items-center gap-6">
           <Tab
             activeTab={requestType}
@@ -97,10 +99,9 @@ const ConceptualSystem: React.FC = () => {
           setPlaying={setIsPlaying}
           playing={isPlaying}
         />
-      </div>
+      </VisualizationHeader>
 
-      <hr className="border-neutral-200 dark:border-neutral-800" />
-      <div ref={containerRef} className="relative w-full bg-neutral-50">
+      <VisualizationBody ref={containerRef} className="bg-neutral-50">
         {/* Row 1: VPN */}
         <div className="relative group p-4">
           <div className="flex items-center gap-4 mb-8 border-black dark:border-white">
@@ -268,8 +269,8 @@ const ConceptualSystem: React.FC = () => {
           straight
           pathWidth={2}
         />
-      </div>
-    </div>
+      </VisualizationBody>
+    </VisualizationContainer>
   );
 };
 

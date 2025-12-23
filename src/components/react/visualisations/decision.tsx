@@ -6,6 +6,7 @@ import { COLORS, cn } from "../../../lib/utils";
 import { User, IdP, Warp, Gateway, AtomWrapper } from "../svg/atoms";
 import Controls from "../controls";
 import { useIsMobile } from "../../../hooks/useIsMobile";
+import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
 type BeamId = "userToIdp" | "idpToWarp" | "userToWarp" | "warpToGateway";
 
@@ -135,7 +136,7 @@ const Decision: React.FC = () => {
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white dark:bg-neutral-900">
+    <VisualizationContainer className="max-w-4xl mx-auto">
       <Header
         hasIdentity={hasIdentity}
         hasDevice={hasDevice}
@@ -144,7 +145,7 @@ const Decision: React.FC = () => {
         onReplay={handleReset}
       />
 
-      <div ref={containerRef} className="relative w-full px-4 py-8 md:p-12">
+      <VisualizationBody ref={containerRef} className="px-4 py-8 md:p-12">
         <div className="grid grid-cols-3 gap-y-12 gap-x-4 md:gap-x-8 justify-items-center">
           <AtomWrapper ref={userRef}>
             <User
@@ -216,8 +217,8 @@ const Decision: React.FC = () => {
             }
           />
         ))}
-      </div>
-    </div>
+      </VisualizationBody>
+    </VisualizationContainer>
   );
 };
 
@@ -234,7 +235,7 @@ const Header = ({
   setPlaying: (playing: boolean) => void;
   onReplay: () => void;
 }) => (
-  <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-200 dark:border-neutral-800 ">
+  <VisualizationHeader className="md:py-4.5">
     <div className="flex items-center gap-4">
       <span className="font-mono text-xs font-medium uppercase tracking-widest dark:text-white">
         Decision
@@ -249,7 +250,7 @@ const Header = ({
       setPlaying={setPlaying}
       playing={playing}
     />
-  </div>
+  </VisualizationHeader>
 );
 
 const StatusIndicator = ({

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { AbstractPlane } from "../svg/atoms/abstract-plane";
 import type { AbstractPlaneProps } from "../svg/atoms/abstract-plane";
+import { VisualizationBody, VisualizationContainer } from "./layout";
 
 interface StackAbstractProps {
   activeGates?: number;
@@ -75,23 +76,21 @@ const AbstractLegend = () => {
   ];
 
   return (
-    <div className="grid grid-cols-5 border-neutral-200 dark:border-neutral-800 py-0.5">
+    <div className="grid grid-cols-5 border-neutral-200 dark:border-neutral-800">
       {layers.map((layer, index) => (
         <div
           key={index}
           className="flex flex-col items-center border-r last:border-r-0 border-neutral-200 dark:border-neutral-800"
         >
-          <div className="w-full relative aspect-[300/180] max-w-[120px] p-1">
+          <div className="w-full relative aspect-[300/180] max-w-[120px] bg-white">
             <AbstractPlane
               {...layer.props}
               zIndex={0}
-              label={undefined}
-              secondaryLabel={undefined}
               className="w-full h-full"
             />
           </div>
 
-          <span className="text-[10px] font-mono uppercase tracking-widest text-center w-full border-y border-neutral-200 dark:border-neutral-800 p-2.5 bg-neutral-50 dark:bg-black text-neutral-500 dark:text-neutral-400">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-center w-full border-y border-neutral-200 dark:border-neutral-800 p-2 bg-neutral-50 dark:bg-black text-neutral-500 dark:text-neutral-400">
             {layer.label}
           </span>
         </div>
@@ -185,23 +184,25 @@ const StackAbstract: React.FC<StackAbstractProps> = ({
 
 const StackShowcase = () => {
   return (
-    <div className="w-full space-y-4 bg-neutral-50">
-      <div className="">
+    <VisualizationContainer>
+      <VisualizationBody className="w-full space-y-4 bg-neutral-50 dark:bg-neutral-900">
         <div className="">
-          <div className="mb-4 text-center">
+          <div className="">
+            <div className="mb-4 text-center">
+              <div className="w-full">
+                <AbstractLegend />
+              </div>
+            </div>
             <div className="w-full">
-              <AbstractLegend />
+              <StackAbstract activeGates={3} stackOffset={15} />
             </div>
           </div>
-          <div className="w-full">
-            <StackAbstract activeGates={3} stackOffset={15} />
-          </div>
         </div>
-      </div>
-      <span className="py-2 text-center w-full block text-[10px] font-mono uppercase tracking-widest text-neutral-500">
-        [Hover over layers]
-      </span>
-    </div>
+        <span className="py-2 text-center w-full block text-[10px] font-mono uppercase tracking-widest text-neutral-500">
+          [Hover over layers]
+        </span>
+      </VisualizationBody>
+    </VisualizationContainer>
   );
 };
 

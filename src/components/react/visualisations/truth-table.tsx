@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "../../../lib/utils";
+import { VisualizationContainer } from "./layout";
 
 type Verdict = "ALLOW" | "DENY";
 type CellSource = "OIDC" | "WARP" | "HTTP" | "POLICY";
@@ -277,9 +278,9 @@ export default function TruthTable({
   const [focused, setFocused] = useState<{ rowIndex: number } | null>(null);
 
   return (
-    <div ref={containerRef} className="w-full">
+    <VisualizationContainer ref={containerRef}>
       {/* Table */}
-      <div className="w-full overflow-x-auto bg-white dark:bg-neutral-950 border-t border-neutral-200 dark:border-neutral-800">
+      <div className="w-full overflow-x-auto bg-white dark:bg-neutral-950">
         <table className="w-full min-w-[800px] border-collapse table-fixed">
           <thead>
             <tr className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50">
@@ -440,6 +441,6 @@ export default function TruthTable({
           </tbody>
         </table>
       </div>
-    </div>
+    </VisualizationContainer>
   );
 }

@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { cn } from "../../../lib/utils";
 import Tab from "../tab";
 import { ControlButton } from "../controls";
+import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
 // --- Types ---
 type NodeStatus = "secure" | "compromised";
@@ -105,22 +106,20 @@ const AttackSurface = () => {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-neutral-900">
-      <div className="">
-        <div className="flex items-center gap-3 w-full justify-between p-4">
-          <Tab
-            items={[
-              { id: "castle", label: "Castle & Moat" },
-              { id: "zero-trust", label: "Zero Trust" },
-            ]}
-            activeTab={mode}
-            onChange={(id) => handleModeChange(id as Mode)}
-          />
-          <ControlButton onClick={resetNodes}>Reset</ControlButton>
-        </div>
-      </div>
+    <VisualizationContainer>
+      <VisualizationHeader>
+        <Tab
+          items={[
+            { id: "castle", label: "Castle & Moat" },
+            { id: "zero-trust", label: "Zero Trust" },
+          ]}
+          activeTab={mode}
+          onChange={(id) => handleModeChange(id as Mode)}
+        />
+        <ControlButton onClick={resetNodes}>Reset</ControlButton>
+      </VisualizationHeader>
 
-      <div className="relative w-full bg-neutral-50 dark:bg-black border-y border-neutral-200 dark:border-neutral-800 p-8 flex items-center justify-center">
+      <VisualizationBody className="bg-neutral-50 dark:bg-black border-b border-neutral-200 dark:border-neutral-800 p-8 flex items-center justify-center">
         <div
           className="grid gap-px bg-neutral-200 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-800"
           style={{
@@ -139,7 +138,7 @@ const AttackSurface = () => {
         <span className="absolute bottom-2 mx-auto text-[10px] font-mono uppercase tracking-widest text-neutral-500">
           [Click any node to simulate a breach.]
         </span>
-      </div>
+      </VisualizationBody>
 
       <div className="p-4 flex items-start gap-6 text-[10px] font-mono uppercase tracking-widest text-neutral-500">
         <div className="flex items-center gap-2">
@@ -151,7 +150,7 @@ const AttackSurface = () => {
           <span>COMPROMISED</span>
         </div>
       </div>
-    </div>
+    </VisualizationContainer>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../../lib/utils";
 import Slider from "../slider";
+import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
 // --- Types ---
 type NodeType = "gateway" | "app" | "db" | "files";
@@ -42,7 +43,7 @@ const Header = ({
   severity: number;
   setSeverity: (severity: number) => void;
 }) => (
-  <div className="w-full px-4 py-4 border-b border-neutral-200 dark:border-neutral-800">
+  <VisualizationHeader className="block h-auto">
     <div className="flex justify-between items-center text-[10px] uppercase font-mono mb-2 text-neutral-500 tracking-wider">
       <p className="text-xs font-mono text-neutral-500 uppercase tracking-wide max-w-md">
         Drag slider to increase credential breach severity.
@@ -52,7 +53,7 @@ const Header = ({
     <div className="w-full px-2 py-2">
       <Slider value={severity} onChange={setSeverity} />
     </div>
-  </div>
+  </VisualizationHeader>
 );
 
 const BlastRadius = () => {
@@ -79,12 +80,12 @@ const BlastRadius = () => {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-neutral-900">
+    <VisualizationContainer>
       {/* Header & Controls */}
       <Header severity={severity} setSeverity={setSeverity} />
 
       {/* Visualization Grid */}
-      <div className="grid grid-cols-2 gap-px bg-neutral-50 dark:bg-neutral-800">
+      <VisualizationBody className="grid grid-cols-2 gap-px bg-neutral-50 dark:bg-neutral-800">
         <NetworkView
           title="VPN (Network Trust)"
           subtitle="Flat Network"
@@ -102,8 +103,8 @@ const BlastRadius = () => {
           getStatus={getZtnaStatus}
           theme="orange"
         />
-      </div>
-    </div>
+      </VisualizationBody>
+    </VisualizationContainer>
   );
 };
 
