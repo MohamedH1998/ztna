@@ -33,3 +33,4 @@ export const ANIMATION_CONFIG = {
 export const ANIMATION_STEP_DURATION = 0.8;
 
 export type AnimationConfig = typeof ANIMATION_CONFIG;
+

@@ -6,6 +6,7 @@ import { getCollection } from "astro:content";
 import Legend from "../components/react/legend";
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/layout/section.astro";
+import ContentSwitcher from "../components/react/content-switcher";
 
 // Visualisations
 import {
@@ -56,6 +57,7 @@ const ztnaCopy = Array.from(sectionMap.values())
   <main
     class="text-neutral-900 dark:text-neutral-100 font-sans min-h-screen bg-white dark:bg-neutral-950 relative"
   >
+    <ContentSwitcher client:visible />
     <section
       id="overview"
       class="flex flex-col items-center justify-center p-8 py-20 text-center border-t border-neutral-200 dark:border-neutral-800 border-b border-neutral-200 dark:border-neutral-800"
