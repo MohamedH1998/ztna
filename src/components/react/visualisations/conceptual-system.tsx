@@ -93,7 +93,6 @@ const ConceptualSystem: React.FC = () => {
           />
         </div>
         <Controls
-          prefersReducedMotion={false}
           setStepIndex={() => handleSimulate()}
           setPlaying={setIsPlaying}
           playing={isPlaying}

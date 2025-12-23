@@ -2,7 +2,6 @@ import React from "react";
 import { cn } from "../../../lib/utils";
 
 interface ControlsProps {
-  prefersReducedMotion?: boolean;
   setStepIndex?: (index: number) => void;
   setPlaying?: (playing: boolean) => void;
   playing: boolean;
@@ -46,7 +45,6 @@ export const ControlButton = ({
 };
 
 const Controls = ({
-  prefersReducedMotion = false,
   setStepIndex,
   setPlaying,
   playing,
@@ -56,8 +54,6 @@ const Controls = ({
   className,
 }: ControlsProps) => {
   const handleReplay = () => {
-    if (prefersReducedMotion) return;
-
     if (onReplay) {
       onReplay();
     } else if (setStepIndex && setPlaying) {
@@ -68,8 +64,6 @@ const Controls = ({
 
   const handleTogglePlay = () => {
     // If disabled, the button shouldn't fire click usually, but good safeguard
-    if (prefersReducedMotion) return;
-
     if (onTogglePlay) {
       onTogglePlay();
     } else if (setPlaying) {
@@ -81,20 +75,11 @@ const Controls = ({
     <div className={cn("flex items-end justify-between gap-4", className)}>
       <div className="flex items-center gap-2">
         {onReplay && (
-          <ControlButton
-            onClick={handleReplay}
-            variant={variant}
-            disabled={prefersReducedMotion}
-          >
+          <ControlButton onClick={handleReplay} variant={variant}>
             Replay
           </ControlButton>
         )}
-        <ControlButton
-          onClick={handleTogglePlay}
-          variant={variant}
-          disabled={prefersReducedMotion}
-          aria-disabled={prefersReducedMotion}
-        >
+        <ControlButton onClick={handleTogglePlay} variant={variant}>
           {playing ? "Pause" : "Play"}
         </ControlButton>
       </div>
