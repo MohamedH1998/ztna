@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import "../styles/global.css";
+import Sidebar from "../components/sidebar";
 
 // Fetch unique sections for sidebar
 const zeroTrustEntries = await getCollection("products", ({ data }) => {
@@ -24,9 +25,16 @@ const ztnaCopy = Array.from(sections.values()).sort(
 <body
   class="min-h-screen flex text-neutral-900 dark:text-neutral-100 dark:bg-neutral-950"
 >
-  <ul class="flex flex-col gap-4">
-    {ztnaCopy.map((section) => <li>{section.badgeTitle}</li>)}
-  </ul>
+  <Sidebar
+    client:load
+    items={[
+      { id: "overview", label: "Overview" },
+      ...ztnaCopy.map((section) => ({
+        id: section.id,
+        label: section.badgeTitle,
+      })),
+    ]}
+  />
   <div class="flex-1 overflow-x-hidden">
     <main class="min-h-screen">
       <div class="">
