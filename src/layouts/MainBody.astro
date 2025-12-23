@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import "../styles/global.css";
 import Sidebar from "../components/react/sidebar";
+import Footer from "../components/layout/footer.astro";
 
 // Fetch unique sections for sidebar
 const zeroTrustEntries = await getCollection("products", ({ data }) => {
@@ -41,5 +42,7 @@ const ztnaCopy = Array.from(sections.values()).sort(
         <slot />
       </div>
     </main>
+    <Footer />
   </div>
+
 </body>

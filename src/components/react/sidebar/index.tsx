@@ -19,6 +19,17 @@ export default function Sidebar({
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const activeIdRef = useRef(activeId);
   activeIdRef.current = activeId;
+  const isScrollingRef = useRef(false);
+
+  // Initial hash check
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      const id = window.location.hash.slice(1);
+      if (items.some((item) => item.id === id)) {
+        setActiveId(id);
+      }
+    }
+  }, [items]);
 
   useEffect(() => {
     if (!items.length) return;
@@ -29,24 +40,28 @@ export default function Sidebar({
 
     if (!els.length) return;
 
-    // Keep a lightweight score per id.
     const ratios = new Map<string, number>();
 
     const setIfChanged = (id: string) => {
       if (id && id !== activeIdRef.current) {
         activeIdRef.current = id;
         setActiveId(id);
+
+        if (!isScrollingRef.current) {
+          history.replaceState(null, "", `#${id}`);
+        }
       }
     };
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (isScrollingRef.current) return;
+
         for (const entry of entries) {
           const id = (entry.target as HTMLElement).id;
           ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
         }
 
-        // Pick the most "visible" among our headings, but keep tie-breaker by document order.
         let bestId = "";
         let bestScore = 0;
 
@@ -57,12 +72,10 @@ export default function Sidebar({
             bestId = el.id;
           }
         }
-        // Fallback: if nothing intersects (e.g. fast scroll), keep previous or pick first.
         setIfChanged(bestId || activeIdRef.current || els[0].id);
       },
       {
         root: null,
-        // “Active” when heading passes below your sticky header.
         rootMargin: `-${topOffset}px 0px -70% 0px`,
         threshold: 0, // fewer callbacks than [0, 1]
       }
@@ -72,17 +85,35 @@ export default function Sidebar({
     return () => observer.disconnect();
   }, [items, topOffset]);
 
-  const scrollTo = useCallback((id: string) => {
-    // Let IntersectionObserver drive activeId; don’t eagerly set state.
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
+  const scrollTo = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+      e.preventDefault();
+
+      isScrollingRef.current = true;
+
+      setActiveId(id);
+      activeIdRef.current = id;
+
+      history.pushState(null, "", `#${id}`);
+
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        setTimeout(() => {
+          isScrollingRef.current = false;
+        }, 1000);
+      } else {
+        isScrollingRef.current = false;
+      }
+    },
+    []
+  );
 
   return (
     <aside
       className={cn(
-        "hidden lg:block shrink-0 sticky top-0 h-screen border-r border-t border-neutral-200 dark:border-neutral-800 text-gray-900",
+        "hidden lg:block shrink-0 sticky top-0 h-screen border-r border-y border-neutral-200 dark:border-neutral-800 text-gray-900",
         className
       )}
       style={{ width: widthPx }}
@@ -106,9 +137,9 @@ export default function Sidebar({
                 const isActive = item.id === activeId;
                 return (
                   <li key={item.id}>
-                    <button
-                      type="button"
-                      onClick={() => scrollTo(item.id)}
+                    <a
+                      href={`#${item.id}`}
+                      onClick={(e) => scrollTo(e, item.id)}
                       className={cn(
                         "w-full text-left p-3 grid items-center relative",
                         "border-t border-neutral-200 dark:border-neutral-800",
@@ -131,7 +162,7 @@ export default function Sidebar({
                         <span className="w-7 text-gray-400">{idx + 1}</span>
                         <span className="truncate">{item.label}</span>
                       </span>
-                    </button>
+                    </a>
                     {idx === items.length - 1 && (
                       <div className="border-b border-neutral-200 dark:border-neutral-800" />
                     )}
