@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../../lib/utils";
-import Slider from "../slider";
+import { Slider } from "../slider" ;
 import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
 // Generate a deterministic permutation of 0..99 to ensure stable hydration
@@ -74,7 +74,7 @@ const Header = ({
     <div className="w-full px-4 py-2 pt-5">
       <Slider
         value={mix}
-        onChange={setMix}
+        onValueChange={(value: number) => setMix(value)}
         min={0}
         max={100}
         labels={["Legacy Only", "Parallel", "Full Zero Trust"]}

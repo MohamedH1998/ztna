@@ -17,54 +17,33 @@ const canonicalURL = siteUrl.origin + Astro.url.pathname;
 <head>
   <meta charset="utf-8" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+  />
   <meta name="generator" content={Astro.generator} />
 
   <!-- Primary Meta Tags -->
-  <title>{title || "Mohamed Hassan | Product Engineer in London"}</title>
-  <meta
-    name="title"
-    content={title || "Mohamed Hassan | Product Engineer in London"}
-  />
-  <meta
-    name="description"
-    content={description || "Product Engineer in London"}
-  />
+  <title>{title}</title>
+  <meta name="title" content={title} />
+  <meta name="description" content={description} />
   {keywords && <meta name="keywords" content={keywords} />}
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content={canonicalURL} />
-  <meta
-    property="og:title"
-    content={title || "Mohamed Hassan | Product Engineer in London"}
-  />
-  <meta
-    property="og:description"
-    content={description || "Product Engineer in London"}
-  />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
 
   <!-- Twitter -->
   <meta property="twitter:card" content={twitterCard} />
   <meta property="twitter:url" content={canonicalURL} />
-  <meta
-    property="twitter:title"
-    content={title || "Mohamed Hassan | Product Engineer in London"}
-  />
-  <meta
-    property="twitter:description"
-    content={description || "Product Engineer in London"}
-  />
+  <meta property="twitter:title" content={title} />
+  <meta property="twitter:description" content={description} />
   <meta property="twitter:site" content={twitterSite} />
   <meta property="twitter:creator" content={twitterCreator} />
-  <meta
-    property="twitter:title"
-    content={twitterTitle || "Mohamed Hassan | Product Engineer in London"}
-  />
-  <meta
-    property="twitter:description"
-    content={twitterDescription || "Product Engineer in London"}
-  />
+  <meta property="twitter:title" content={twitterTitle} />
+  <meta property="twitter:description" content={twitterDescription} />
 
   <link rel="canonical" href={canonicalURL} />
   <link rel="preconnect" href="https://fonts.googleapis.com" /><link

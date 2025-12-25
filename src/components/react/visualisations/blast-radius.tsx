@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../../lib/utils";
-import Slider from "../slider";
+import { Slider } from "../slider";
 import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
 
 // --- Types ---
@@ -50,8 +50,8 @@ const Header = ({
       </p>
       <span>{severity}%</span>
     </div>
-    <div className="w-full px-2 py-2">
-      <Slider value={severity} onChange={setSeverity} />
+    <div className="w-full py-2">
+      <Slider value={severity} onValueChange={(value: number) => setSeverity(value)} min={0} max={100} />
     </div>
   </VisualizationHeader>
 );

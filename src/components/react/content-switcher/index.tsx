@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { depthStore, type Depth } from "../../../stores/depthStore";
 import { TickRulerPill } from "../slider/ruler";
 
@@ -26,9 +26,8 @@ export default function ContentSwitcher() {
     const { depth } = getLevelConfig(v);
     depthStore.set(depth);
   }, [v]);
-
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-5 right-5 z-50 flex items-center gap-2">
       <div className="backdrop-blur-xs">
         <TickRulerPill
           value={v}

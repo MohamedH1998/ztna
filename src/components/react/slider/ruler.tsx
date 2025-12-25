@@ -1,14 +1,17 @@
-import React, { useId, useMemo } from "react";
+import React, { useMemo } from "react";
 import { clamp, cn } from "../../../lib/utils";
+import { Slider } from "./index";
 
-const RULER_WIDTH = 182;
-const RULER_HEIGHT = 19;
-const TICK_COUNT = 19;
-const TICK_START_X = 10.5;
-const TICK_SPACING = 9;
-const TICK_BASE_TOP_Y = 12;
-const TICK_ACTIVE_TOP_Y = 4;
-const TICK_BOTTOM_Y = 19;
+const CONFIG = {
+  width: 182,
+  height: 19,
+  tickStartX: 10.5,
+  tickSpacing: 9,
+  tickBaseTopY: 12,
+  tickActiveTopY: 4,
+  tickBottomY: 19,
+  tickCount: 19,
+};
 
 export type TickRulerPillProps = {
   value: number;
@@ -17,9 +20,7 @@ export type TickRulerPillProps = {
   max?: number;
   step?: number;
   className?: string;
-  /** Function to format the label based on the current value */
   formatLabel?: (value: number) => React.ReactNode;
-  /** Accessibility label for the range input */
   ariaLabel?: string;
 };
 
@@ -33,18 +34,17 @@ export const TickRulerPill: React.FC<TickRulerPillProps> = ({
   formatLabel,
   ariaLabel = "Value selector",
 }) => {
-  const id = useId();
   const safeValue = clamp(value, min, max);
+
   const label = useMemo(() => {
     if (formatLabel) return formatLabel(safeValue);
     return Math.round(safeValue);
   }, [safeValue, formatLabel]);
 
-  // Continuous position across ticks
   const position = useMemo(() => {
     if (max === min) return 0;
     const t = (safeValue - min) / (max - min);
-    return t * (TICK_COUNT - 1);
+    return t * (CONFIG.tickCount - 1);
   }, [safeValue, min, max]);
 
   return (
@@ -57,24 +57,23 @@ export const TickRulerPill: React.FC<TickRulerPillProps> = ({
       <span className="whitespace-nowrap font-medium text-neutral-800 font-mono uppercase text-[10px] md:text-xs">
         {label}
       </span>
-      {/* Ruler */}
-      <div className="relative">
+      <div className="">
         <svg
-          width={RULER_WIDTH}
-          height={RULER_HEIGHT}
-          viewBox={`0 0 ${RULER_WIDTH} ${RULER_HEIGHT}`}
+          width={CONFIG.width}
+          height={CONFIG.height}
+          viewBox={`0 0 ${CONFIG.width} ${CONFIG.height}`}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
           className="block"
         >
-          {Array.from({ length: TICK_COUNT }, (_, i) => {
-            const x = TICK_START_X + i * TICK_SPACING;
+          {Array.from({ length: CONFIG.tickCount }, (_, i) => {
+            const x = CONFIG.tickStartX + i * CONFIG.tickSpacing;
             const d = Math.abs(i - position);
             const influence = clamp(1 - d, 0, 1);
             const y1 =
-              TICK_BASE_TOP_Y -
-              influence * (TICK_BASE_TOP_Y - TICK_ACTIVE_TOP_Y);
+              CONFIG.tickBaseTopY -
+              influence * (CONFIG.tickBaseTopY - CONFIG.tickActiveTopY);
 
             return (
               <line
@@ -82,7 +81,7 @@ export const TickRulerPill: React.FC<TickRulerPillProps> = ({
                 x1={x}
                 y1={y1}
                 x2={x}
-                y2={TICK_BOTTOM_Y}
+                y2={CONFIG.tickBottomY}
                 stroke={`rgba(var(--tick-rgb), ${
                   influence > 0 ? 0.2 + influence * 0.8 : 0.2
                 })`}
@@ -93,16 +92,16 @@ export const TickRulerPill: React.FC<TickRulerPillProps> = ({
           })}
         </svg>
       </div>
-      <input
-        id={id}
-        type="range"
+      <Slider
+        className="absolute opacity-0 p-0"
+        rounded="rounded-none"
+        height="h-10"
+        value={safeValue}
         min={min}
         max={max}
         step={step}
-        value={safeValue}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onValueChange={(v) => onChange(v as number)}
         aria-label={ariaLabel}
-        className="absolute inset-0 opacity-0 h-full w-full cursor-pointer py-4"
       />
     </div>
   );

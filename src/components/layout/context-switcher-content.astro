@@ -8,8 +8,8 @@ interface Props {
 const { innerText } = Astro.props;
 ---
 
-<div class="content-switcher-content">
-  <div class="content-variant" data-depth="beginner">
+<div class="content-switcher-content relative">
+  <div class="content-variant hidden opacity-0 transition-opacity duration-300 ease-in-out [&.active]:block [&.active]:opacity-100 [&.active]:animate-content-enter" data-depth="beginner">
     {
       innerText.beginner.map((text) => (
         <p
@@ -20,7 +20,7 @@ const { innerText } = Astro.props;
     }
   </div>
 
-  <div class="content-variant" data-depth="technical">
+  <div class="content-variant hidden opacity-0 transition-opacity duration-300 ease-in-out [&.active]:block [&.active]:opacity-100 [&.active]:animate-content-enter" data-depth="technical">
     {
       innerText.technical.map((text) => (
         <p
@@ -31,7 +31,7 @@ const { innerText } = Astro.props;
     }
   </div>
 
-  <div class="content-variant" data-depth="deep">
+  <div class="content-variant hidden opacity-0 transition-opacity duration-300 ease-in-out [&.active]:block [&.active]:opacity-100 [&.active]:animate-content-enter" data-depth="deep">
     {
       innerText.deep.map((text) => (
         <p
@@ -42,43 +42,6 @@ const { innerText } = Astro.props;
     }
   </div>
 </div>
-
-<style>
-  .content-switcher-content {
-    position: relative;
-  }
-
-  .content-variant {
-    opacity: 0;
-    display: none;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .content-variant.active {
-    opacity: 1;
-    display: block;
-    animation: contentEnter 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes contentEnter {
-    from {
-      opacity: 0;
-      filter: blur(4px);
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .content-variant.active {
-      animation: none;
-    }
-  }
-</style>
 
 <script>
   import { depthStore } from "../../stores/depthStore";

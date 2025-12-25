@@ -6,6 +6,20 @@ import "@fontsource/cormorant";
 import MainBody from "./MainBody.astro";
 import MainHead from "./MainHead.astro";
 
+const defaults = {
+  title: "Zero Trust Network Access: A Visual Explainer",
+  description:
+    "A visual guide to Cloudflare's Zero Trust Network Access system and architecture.",
+  url: "https://ztna-ag3.pages.dev/",
+  twitterCard: "summary_large_image",
+  twitterSite: "@momito",
+  twitterCreator: "@momito",
+  twitterTitle: "Zero Trust Network Access: A Visual Explainer",
+  twitterDescription: "A visual guide to Zero Trust Network Access",
+  keywords:
+    "Cloudflare, Zero Trust, ZTNA, Network Access, Visual Guide, Security",
+};
+
 const {
   title,
   description,
@@ -15,20 +29,8 @@ const {
   twitterCreator,
   twitterTitle,
   twitterDescription,
-  twitterImage,
   keywords,
-  image,
-} = Astro.props || {
-  title: "Zero Trust Network Access: A Visual Explainer",
-  description: "A visual guide to Cloudflare's Zero Trust Network Access system and architecture.",
-  url: "https://cloudflare-primitives.app",
-  twitterCard: "summary_large_image",
-  twitterSite: "@momito",
-  twitterCreator: "@momito",
-  twitterTitle: "Zero Trust Network Access: A Visual Explainer",
-  twitterDescription: "A visual guide to Zero Trust Network Access",
-  keywords: "Cloudflare, Zero Trust, ZTNA, Network Access, Visual Guide, Security",
-};
+} = { ...defaults, ...Astro.props };
 ---
 
 <!doctype html>
@@ -41,9 +43,7 @@ const {
     twitterCreator={twitterCreator}
     twitterTitle={twitterTitle}
     twitterDescription={twitterDescription}
-    twitterImage={twitterImage}
     keywords={keywords}
-    image={image}
   />
   <MainBody>
     <slot />

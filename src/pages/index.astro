@@ -57,7 +57,7 @@ const ztnaCopy = Array.from(sectionMap.values())
   <main
     class="text-neutral-900 dark:text-neutral-100 font-sans min-h-screen bg-white dark:bg-neutral-950 relative"
   >
-    <ContentSwitcher client:visible />
+    <ContentSwitcher client:load />
     <section
       id="overview"
       class="flex flex-col items-center justify-center p-8 py-20 text-center border-t border-neutral-200 dark:border-neutral-800"
@@ -90,10 +90,14 @@ const ztnaCopy = Array.from(sectionMap.values())
               {section.id === "the-mechanism" && (
                 <ConceptualSystem client:visible />
               )}
-              {section.id === "the-primitives" && <StackShowcase client:visible />}
+              {section.id === "the-primitives" && (
+                <StackShowcase client:visible />
+              )}
               {section.id === "the-decision" && <Decision client:visible />}
-              {section.id === "vpn-vs-ztna" && <BlastRadius client:idle />}
-              {section.id === "unified-enforcement" && <TruthTable client:idle />}
+              {section.id === "vpn-vs-ztna" && <BlastRadius client:visible />}
+              {section.id === "unified-enforcement" && (
+                <TruthTable client:idle />
+              )}
               {section.id === "the-payoff" && <SpeedRace client:idle />}
               {section.id === "day-one" && <ParallelTuner client:idle />}
             </div>
