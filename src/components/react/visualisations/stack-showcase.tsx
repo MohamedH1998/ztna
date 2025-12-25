@@ -2,11 +2,7 @@ import { useState } from "react";
 
 import { AbstractPlane } from "../svg/atoms/abstract-plane";
 import type { AbstractPlaneProps } from "../svg/atoms/abstract-plane";
-import {
-  VisualizationBody,
-  VisualizationContainer,
-  VisualizationHeader,
-} from "./layout";
+import { VisualizationBody, VisualizationContainer } from "./layout";
 
 interface StackAbstractProps {
   activeGates?: number;
@@ -14,17 +10,6 @@ interface StackAbstractProps {
   appIsReachable?: boolean;
   separation?: number;
   stackOffset?: number;
-}
-
-interface LayerConfig {
-  id: string;
-  label: string;
-  active: boolean;
-  pattern: AbstractPlaneProps["pattern"];
-  outline: AbstractPlaneProps["outlineStyle"];
-  split?: boolean;
-  secondaryLabel?: string;
-  secondaryPattern?: AbstractPlaneProps["secondaryPattern"];
 }
 
 const AbstractLegend = () => {
@@ -41,6 +26,7 @@ const AbstractLegend = () => {
         split: true,
         secondaryPattern: "grid",
         showSplitPart: "secondary",
+        secondaryColor: "#364CD0",
       },
     },
     {
@@ -51,6 +37,7 @@ const AbstractLegend = () => {
         outlineStyle: "solid",
         split: true,
         showSplitPart: "primary",
+        color: "#35A15B",
       },
     },
     {
@@ -110,37 +97,39 @@ const StackAbstract: React.FC<StackAbstractProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   // Differentiate layers by pattern and minor active state tweaks
-  const layers: LayerConfig[] = [
+  const layers: AbstractPlaneProps[] = [
     {
-      id: "L0",
-      label: "DEVICE", // Right Label
+      label: "DEVICE",
       active: false,
-      pattern: "waves", // Right Pattern
-      outline: "solid",
+      pattern: "waves",
+      outlineStyle: "solid",
+      color: "#35A15B",
       split: true,
-      secondaryLabel: "USER", // Left Label
-      secondaryPattern: "grid", // Left Pattern
+      secondaryLabel: "USER",
+      secondaryPattern: "grid",
+      secondaryColor: "#364CD0",
+      zIndex: 0,
     },
     {
-      id: "L4",
       label: "POLICY",
       active: true,
       pattern: "diagonal",
-      outline: "dashed",
+      outlineStyle: "dashed",
+      zIndex: 1,
     }, // Policy = Hatching (Active/Action)
     {
-      id: "L5",
       label: "TRANSPORT",
       active: false,
       pattern: "dots",
-      outline: "solid",
+      outlineStyle: "solid",
+      zIndex: 2,
     }, // Transport = Dots (Particles)
     {
-      id: "L6",
       label: "APP",
       active: false,
       pattern: "solid",
-      outline: "solid",
+      outlineStyle: "solid",
+      zIndex: 3,
     }, // App = Solid/Center focus
   ];
 
@@ -173,10 +162,12 @@ const StackAbstract: React.FC<StackAbstractProps> = ({
                 label={layer.label}
                 zIndex={index}
                 pattern={layer.pattern}
-                outlineStyle={layer.outline}
+                outlineStyle={layer.outlineStyle}
                 split={layer.split}
+                color={layer.color}
                 secondaryLabel={layer.secondaryLabel}
                 secondaryPattern={layer.secondaryPattern}
+                secondaryColor={layer.secondaryColor}
               />
             </div>
           ))}

@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../../lib/utils";
 import { Slider } from "../slider";
-import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
+import {
+  VisualizationBody,
+  VisualizationContainer,
+  VisualizationHeader,
+} from "./layout";
 
 // --- Types ---
 type NodeType = "gateway" | "app" | "db" | "files";
@@ -44,14 +48,19 @@ const Header = ({
   setSeverity: (severity: number) => void;
 }) => (
   <VisualizationHeader className="block h-auto">
-    <div className="flex justify-between items-center text-[10px] uppercase font-mono mb-2 text-neutral-500 tracking-wider">
-      <p className="text-xs font-mono text-neutral-500 uppercase tracking-wide max-w-md">
-        Drag slider to increase credential breach severity.
-      </p>
-      <span>{severity}%</span>
+    <div className="flex items-center justify-between gap-4">
+      <span className="font-mono text-xs font-medium uppercase tracking-widest dark:text-white">
+        Decision
+      </span>
+      <span className="font-mono text-sm">{severity}%</span>
     </div>
-    <div className="w-full py-2">
-      <Slider value={severity} onValueChange={(value: number) => setSeverity(value)} min={0} max={100} />
+    <div className="w-full p-2">
+      <Slider
+        value={severity}
+        onValueChange={(value: number) => setSeverity(value)}
+        min={0}
+        max={100}
+      />
     </div>
   </VisualizationHeader>
 );

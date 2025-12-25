@@ -11,6 +11,9 @@ export interface AbstractPlaneProps {
   secondaryLabel?: string;
   // Control which parts of a split layer are visible (useful for legend)
   showSplitPart?: "both" | "primary" | "secondary";
+  // Custom color overrides
+  color?: string;
+  secondaryColor?: string;
 }
 
 export const AbstractPlane = ({
@@ -24,9 +27,16 @@ export const AbstractPlane = ({
   secondaryPattern,
   secondaryLabel,
   showSplitPart = "both",
+  color,
+  secondaryColor,
 }: AbstractPlaneProps) => {
-  const strokeColor = active ? "#f56500" : "#737373"; // Lighter grey for better visibility
-  const fillColor = active ? "#f56500" : "#262626"; // Slightly lighter fill for depth
+  const defaultStrokeColor = active ? "#f56500" : "#737373"; // Lighter grey for better visibility
+  const defaultFillColor = active ? "#f56500" : "#262626"; // Slightly lighter fill for depth
+
+  const strokeColor = color || defaultStrokeColor;
+  const fillColor = color || defaultFillColor;
+  const secondaryStrokeColor = secondaryColor || defaultStrokeColor;
+  const secondaryFillColor = secondaryColor || defaultFillColor;
 
   // Dynamic base opacity based on zIndex/layer-depth
   // Significantly increased for better visibility/prominence
@@ -45,6 +55,7 @@ export const AbstractPlane = ({
     >
       {/* Pattern Definitions - Enhanced for visibility */}
       <defs>
+        {/* Primary Patterns */}
         <pattern
           id="diagonalHatch"
           width="4"
@@ -98,6 +109,61 @@ export const AbstractPlane = ({
             strokeOpacity="0.9"
           />
         </pattern>
+
+        {/* Secondary Patterns */}
+        <pattern
+          id="diagonalHatch-secondary"
+          width="4"
+          height="4"
+          patternTransform="rotate(60 0 0)"
+          patternUnits="userSpaceOnUse"
+        >
+          <line
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="4"
+            stroke={secondaryStrokeColor}
+            strokeWidth="1.2"
+            strokeOpacity="1"
+          />
+        </pattern>
+        <pattern
+          id="gridPattern-secondary"
+          width="8"
+          height="8"
+          patternUnits="userSpaceOnUse"
+        >
+          <path
+            d="M 8 0 L 0 0 0 8"
+            fill="none"
+            stroke={secondaryStrokeColor}
+            strokeWidth="1"
+            strokeOpacity="0.8"
+          />
+        </pattern>
+        <pattern
+          id="dotPattern-secondary"
+          width="4"
+          height="4"
+          patternUnits="userSpaceOnUse"
+        >
+          <circle cx="1" cy="1" r="1.1" fill={secondaryStrokeColor} fillOpacity="1" />
+        </pattern>
+        <pattern
+          id="wavesPattern-secondary"
+          width="6"
+          height="6"
+          patternUnits="userSpaceOnUse"
+        >
+          <path
+            d="M 0 3 Q 1.5 0 3 3 T 6 3"
+            fill="none"
+            stroke={secondaryStrokeColor}
+            strokeWidth="1"
+            strokeOpacity="0.9"
+          />
+        </pattern>
       </defs>
 
       {/* Render Single Plane or Split Plane */}
@@ -145,12 +211,12 @@ export const AbstractPlane = ({
           {/* Bottom-Left Half (Secondary Pattern - e.g. User) */}
           {/* Split points: (85, 55) and (215, 125) which are midpoints of top-left and bottom-right edges */}
           {showSecondary && (
-            <>
+            <g transform={showSplitPart === "secondary" ? "translate(32.5, -17.5)" : ""}>
               <path
                 d="M20 90 L150 160 L215 125 L85 55 Z"
-                fill={fillColor}
+                fill={secondaryFillColor}
                 fillOpacity={baseFillOpacity}
-                stroke={strokeColor}
+                stroke={secondaryStrokeColor}
                 strokeWidth={active ? 2.5 : 1.5}
                 strokeDasharray={outlineStyle === "dashed" ? "6 3" : "none"}
               />
@@ -158,24 +224,24 @@ export const AbstractPlane = ({
                 d="M20 90 L150 160 L215 125 L85 55 Z"
                 fill={
                   secondaryPattern === "diagonal"
-                    ? "url(#diagonalHatch)"
+                    ? "url(#diagonalHatch-secondary)"
                     : secondaryPattern === "grid"
-                    ? "url(#gridPattern)"
+                    ? "url(#gridPattern-secondary)"
                     : secondaryPattern === "dots"
-                    ? "url(#dotPattern)"
+                    ? "url(#dotPattern-secondary)"
                     : secondaryPattern === "waves"
-                    ? "url(#wavesPattern)"
+                    ? "url(#wavesPattern-secondary)"
                     : "none"
                 }
                 fillOpacity={active ? 1 : 0.9}
                 style={{ pointerEvents: "none" }}
               />
-            </>
+            </g>
           )}
 
           {/* Top-Right Half (Primary Pattern - e.g. Device) */}
           {showPrimary && (
-            <>
+            <g transform={showSplitPart === "primary" ? "translate(-32.5, 17.5)" : ""}>
               <path
                 d="M150 20 L280 90 L215 125 L85 55 Z"
                 fill={fillColor}
@@ -200,7 +266,7 @@ export const AbstractPlane = ({
                 fillOpacity={active ? 1 : 0.9}
                 style={{ pointerEvents: "none" }}
               />
-            </>
+            </g>
           )}
 
           {/* Diagonal Divider Line - Only show if both parts are visible */}
@@ -210,7 +276,7 @@ export const AbstractPlane = ({
               y1="55"
               x2="215"
               y2="125"
-              stroke={strokeColor}
+              stroke={secondaryColor || color || strokeColor}
               strokeWidth={1.5}
             />
           )}
@@ -228,7 +294,7 @@ export const AbstractPlane = ({
           <text
             x="15"
             y="4"
-            fill={active ? "#f56500" : "#525252"}
+            fill={color || (active ? "#f56500" : "#525252")}
             fontWeight="bold"
             fontSize="11"
             fontFamily="DM Mono, monospace"
@@ -259,7 +325,7 @@ export const AbstractPlane = ({
           <text
             x="-15"
             y="4"
-            fill={active ? "#f56500" : "#525252"}
+            fill={secondaryColor || (active ? "#f56500" : "#525252")}
             fontWeight="bold"
             fontSize="11"
             fontFamily="DM Mono, monospace"
@@ -273,10 +339,10 @@ export const AbstractPlane = ({
             y1="0"
             x2="5"
             y2="0"
-            stroke={strokeColor}
+            stroke={secondaryStrokeColor}
             strokeWidth={1.5}
           />
-          <circle cx="5" cy="0" r="2" fill={strokeColor} />
+          <circle cx="5" cy="0" r="2" fill={secondaryStrokeColor} />
         </g>
       )}
     </svg>
