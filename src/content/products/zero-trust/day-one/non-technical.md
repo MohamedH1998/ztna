@@ -6,7 +6,7 @@ section:
   title: How to start (without breaking everything)
   description: Connect one app. Then one team. No big bang migration.
   order: 8
-depth: beginner
+depth: non-technical
 ---
 
 You don't have to replace everything at once. Start with one internal tool (like a wiki or admin panel). Put it behind Cloudflare Zero Trust. It takes 15 minutes. Then add one team. Then another. It's a gradual upgrade, not a scary switch.

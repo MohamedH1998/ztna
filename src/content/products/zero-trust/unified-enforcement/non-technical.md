@@ -7,7 +7,7 @@ section:
   description: Private apps, SaaS, and web destinations — consistent rules, consistent context.
   order: 6
   alignment: vertical
-depth: beginner
+depth: non-technical
 ---
 
 Cloudflare Zero Trust doesn't just control access to private applications. The same policy engine governs SaaS apps and public web destinations. You can enforce the same identity and device requirements whether users access your internal CRM, Salesforce, or any public website.

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "../../../lib/utils";
 
 type TocItem = { id: string; label: string };
@@ -23,12 +23,20 @@ export default function Sidebar({
   activeIdRef.current = activeId;
   const isScrollingRef = useRef(false);
 
-  // Initial hash check
+  // Initial hash check and scroll
   useEffect(() => {
     if (typeof window !== "undefined" && window.location.hash) {
       const id = window.location.hash.slice(1);
       if (items.some((item) => item.id === id)) {
         setActiveId(id);
+
+        // Scroll to the element after a brief delay to ensure DOM is ready
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 100);
       }
     }
   }, [items]);
@@ -104,7 +112,7 @@ export default function Sidebar({
 
         setTimeout(() => {
           isScrollingRef.current = false;
-        }, 1000);
+        }, 1500);
       } else {
         isScrollingRef.current = false;
       }

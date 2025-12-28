@@ -31,7 +31,7 @@ zeroTrustEntries.forEach((entry) => {
   if (!sectionMap.has(key)) {
     sectionMap.set(key, {
       section: entry.data.section,
-      content: { beginner: [], technical: [], deep: [] },
+      content: { "non-technical": [], technical: [], deep: [] },
     });
   }
 
@@ -61,13 +61,13 @@ const ztnaCopy = Array.from(sectionMap.values())
     <ContentSwitcher client:load />
     <section
       id="overview"
-      class="flex flex-col items-center justify-center p-8 py-20 text-center border-t border-neutral-200 dark:border-neutral-800"
+      class="flex flex-col items-center justify-center p-8 py-28 text-center border-t border-neutral-200 dark:border-neutral-800"
     >
       <h1 class="text-5xl md:text-7xl font-medium mb-4 font-cormorant">
         Zero trust network access
       </h1>
       <p
-        class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl font-inter-tight mb-8"
+        class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl font-inter-tight"
       >
         An interactive guide to Cloudflare's Zero trust network access.
       </p>

@@ -6,7 +6,7 @@ section:
   title: Why Zero Trust exists
   description: The perimeter collapsed. Network-level trust became the liability.
   order: 1
-depth: beginner
+depth: non-technical
 ---
 
 The old model: 'Connect to the network, get the keys to the castle.' If an attacker gets in, they get everything. This is why ransomware spreads.

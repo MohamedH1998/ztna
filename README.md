@@ -11,7 +11,7 @@ An interactive educational platform designed to explain Zero Trust concepts thro
   - **Speed Race**: Performance comparison (Gateway, Access, RBI).
   - **Stack Showcase**: Multi-layer security stack inspection.
   - **Truth Table**: Policy evaluation logic explorer.
-- **Adaptive Content**: Content switching between Beginner, Deep Dive, and Technical levels.
+- **Adaptive Content**: Content switching between Non-technical, Technical, and Deep Dive levels.
 - **Responsive Design**: Mobile-friendly interactive elements.
 
 ## Tech Stack

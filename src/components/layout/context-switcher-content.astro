@@ -6,12 +6,13 @@ interface Props {
 }
 
 const { innerText } = Astro.props;
+
 ---
 
 <div class="content-switcher-content relative">
-  <div class="content-variant hidden opacity-0 transition-opacity duration-300 ease-in-out [&.active]:block [&.active]:opacity-100 [&.active]:animate-content-enter" data-depth="beginner">
+  <div class="content-variant hidden opacity-0 transition-opacity duration-300 ease-in-out [&.active]:block [&.active]:opacity-100 [&.active]:animate-content-enter" data-depth="non-technical">
     {
-      innerText.beginner.map((text) => (
+      innerText["non-technical"].map((text) => (
         <p
           class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed m-0 mb-3"
           set:html={text}

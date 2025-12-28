@@ -6,7 +6,7 @@ section:
   title: How a request is decided
   description: Deterministic evaluation - explicit rules, ordered matches, default deny.
   order: 4
-depth: beginner
+depth: non-technical
 ---
 
 Every access request is evaluated against an ordered list of policy rules. The first matching rule determines the outcome. If a rule matches and allows access, the request proceeds. If it matches and blocks, access is denied. If no rules match at all, access is denied by default.

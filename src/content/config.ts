@@ -1,6 +1,6 @@
 import { z, defineCollection } from "astro:content";
 
-const depthSchema = z.enum(["beginner", "technical", "deep"]);
+const depthSchema = z.enum(["non-technical", "technical", "deep"]);
 
 // Schema for product sections
 const productsCollection = defineCollection({
