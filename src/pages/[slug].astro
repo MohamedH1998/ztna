@@ -3,36 +3,40 @@ import "../styles/global.css";
 import Layout from "../layouts/Layout.astro";
 import LinkButton from "../components/layout/link-button.astro";
 import Prose from "../components/layout/prose.astro";
-import { getEntry, render } from "astro:content";
+import { getCollection, render } from "astro:content";
 
-const entry = await getEntry("pages", "start-here");
+export async function getStaticPaths() {
+  const pages = await getCollection("pages");
 
-if (!entry) {
-  throw new Error("Page not found");
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
 }
 
-const { Content } = await render(entry);
+const { page } = Astro.props;
+const { Content } = await render(page);
 ---
 
 <Layout
   hasContent={false}
-  title={`${entry.data.title} - Zero Trust Network Access`}
-  description={entry.data.description}
+  title={`${page.data.title} - Zero Trust Network Access`}
+  description={page.data.description}
 >
   <main
     class="text-neutral-900 dark:text-neutral-100 font-sans min-h-screen bg-white dark:bg-neutral-950"
   >
     <section
-      class="flex flex-col items-start justify-center p-4 py-20 text-start border-t border-neutral-200 dark:border-neutral-800"
+      class="flex flex-col items-center justify-center px-4 py-28 border-t border-neutral-200 dark:border-neutral-800"
     >
       <h1 class="text-5xl md:text-7xl font-medium mb-4 font-cormorant">
-        {entry.data.title}
+        {page.data.title}
       </h1>
 
       <p
         class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl font-inter-tight"
       >
-        {entry.data.description}
+        {page.data.description}
       </p>
     </section>
     <LinkButton

@@ -1,7 +1,7 @@
 ---
 product: zero-trust
 section:
-  id: the-payoff
+  id: performance
   badgeTitle: Performance
   title: Performance at Scale
   description: Faster than the competition. Verified by data.

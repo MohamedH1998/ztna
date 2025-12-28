@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback } from "react";
 import { cn } from "../../../lib/utils";
 
 type TocItem = { id: string; label: string };
@@ -13,112 +13,10 @@ type SidebarProps = {
 
 export default function Sidebar({
   items,
-  topOffset = 96,
   widthPx = 320,
   className,
   hasContent = true,
 }: SidebarProps) {
-  const [activeId, setActiveId] = useState(items[0]?.id ?? "");
-  const activeIdRef = useRef(activeId);
-  activeIdRef.current = activeId;
-  const isScrollingRef = useRef(false);
-
-  // Initial hash check and scroll
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash) {
-      const id = window.location.hash.slice(1);
-      if (items.some((item) => item.id === id)) {
-        setActiveId(id);
-
-        // Scroll to the element after a brief delay to ensure DOM is ready
-        setTimeout(() => {
-          const el = document.getElementById(id);
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        }, 100);
-      }
-    }
-  }, [items]);
-
-  useEffect(() => {
-    if (!items.length) return;
-
-    const els = items
-      .map((item) => document.getElementById(item.id))
-      .filter(Boolean) as HTMLElement[];
-
-    if (!els.length) return;
-
-    const ratios = new Map<string, number>();
-
-    const setIfChanged = (id: string) => {
-      if (id && id !== activeIdRef.current) {
-        activeIdRef.current = id;
-        setActiveId(id);
-
-        if (!isScrollingRef.current) {
-          history.replaceState(null, "", `#${id}`);
-        }
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (isScrollingRef.current) return;
-
-        for (const entry of entries) {
-          const id = (entry.target as HTMLElement).id;
-          ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
-        }
-
-        let bestId = "";
-        let bestScore = 0;
-
-        for (const el of els) {
-          const score = ratios.get(el.id) ?? 0;
-          if (score > bestScore) {
-            bestScore = score;
-            bestId = el.id;
-          }
-        }
-        setIfChanged(bestId || activeIdRef.current || els[0].id);
-      },
-      {
-        root: null,
-        rootMargin: `-${topOffset}px 0px -70% 0px`,
-        threshold: 0, // fewer callbacks than [0, 1]
-      }
-    );
-
-    for (const el of els) observer.observe(el);
-    return () => observer.disconnect();
-  }, [items, topOffset]);
-
-  const scrollTo = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-      e.preventDefault();
-
-      isScrollingRef.current = true;
-
-      setActiveId(id);
-      activeIdRef.current = id;
-
-      history.pushState(null, "", `#${id}`);
-
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        setTimeout(() => {
-          isScrollingRef.current = false;
-        }, 1500);
-      } else {
-        isScrollingRef.current = false;
-      }
-    },
-    []
-  );
 
   return (
     <aside
@@ -145,12 +43,11 @@ export default function Sidebar({
 
               <ul>
                 {items.map((item, idx) => {
-                  const isActive = item.id === activeId;
+                  const isActive = false;
                   return (
                     <li key={item.id}>
                       <a
                         href={`#${item.id}`}
-                        onClick={(e) => scrollTo(e, item.id)}
                         className={cn(
                           "w-full text-left p-3 grid items-center relative",
                           "border-t border-neutral-200 dark:border-neutral-800",
