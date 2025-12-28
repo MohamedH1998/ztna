@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -11,6 +12,7 @@ html {
   --font-inter-tight: "Inter Tight", sans-serif;
   --font-cormorant: "Cormorant", serif;
   --color-accent: #f56500;
+  --color-inactive: #D4D4D4;
 
   --animate-content-enter: contentEnter 1s cubic-bezier(0.16, 1, 0.3, 1);
 

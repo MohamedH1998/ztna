@@ -7,6 +7,7 @@ import Legend from "../components/react/legend";
 import Layout from "../layouts/Layout.astro";
 import Section from "../components/layout/section.astro";
 import ContentSwitcher from "../components/react/content-switcher";
+import LinkButton from "../components/layout/link-button.astro";
 
 // Visualisations
 import {
@@ -63,17 +64,24 @@ const ztnaCopy = Array.from(sectionMap.values())
       class="flex flex-col items-center justify-center p-8 py-20 text-center border-t border-neutral-200 dark:border-neutral-800"
     >
       <h1 class="text-5xl md:text-7xl font-medium mb-4 font-cormorant">
-        Zero trust access network
+        Zero trust network access
       </h1>
       <p
-        class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl font-inter-tight"
+        class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl font-inter-tight mb-8"
       >
-        An interactive guide to Cloudflare's Zero trust access network.
+        An interactive guide to Cloudflare's Zero trust network access.
       </p>
     </section>
     <section
       class="flex flex-col items-start justify-center md:justify-start relative w-full"
     >
+      <LinkButton
+        href="/start-here"
+        variant="secondary"
+        class="block w-full rounded-none border-x-0 border-b-0"
+      >
+        Design Considerations
+      </LinkButton>
       <Legend client:visible />
       {
         ztnaCopy.map((section) => (

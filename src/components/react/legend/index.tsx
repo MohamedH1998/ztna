@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { User, IdP, Warp, Gateway, Tunnel, App } from "../svg/atoms";
+import { cn } from "../../../lib/utils";
 
 const LEGEND_ITEMS = [
   {
@@ -62,12 +63,15 @@ const Legend = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="w-full p-4 hidden md:block border-t border-neutral-200 dark:border-neutral-800">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-8">
+    <div className="w-full hidden md:block border-t border-neutral-200 dark:border-neutral-800">
+      <div className="grid grid-cols-1 md:grid-cols-3">
         {LEGEND_ITEMS.map((item, index) => (
           <div
             key={index}
-            className="flex items-start gap-4"
+            className={cn(
+              `flex items-start gap-4 border-r  border-neutral-200 dark:border-neutral-800 p-4 h-full`,
+              index < 3 && "border-b"
+            )}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
           >

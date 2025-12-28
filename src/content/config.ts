@@ -20,6 +20,16 @@ const productsCollection = defineCollection({
   }),
 });
 
+const pagesCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    kicker: z.string().optional(),
+  }),
+});
+
 export const collections = {
   products: productsCollection,
+  pages: pagesCollection,
 };

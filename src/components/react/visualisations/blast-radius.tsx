@@ -50,7 +50,7 @@ const Header = ({
   <VisualizationHeader className="block h-auto">
     <div className="flex items-center justify-between gap-4">
       <span className="font-mono text-xs font-medium uppercase tracking-widest dark:text-white">
-        Decision
+        Blast radius - <span className="text-neutral-500 dark:text-neutral-400">increase severity to see impact</span>
       </span>
       <span className="font-mono text-sm">{severity}%</span>
     </div>
@@ -134,7 +134,7 @@ const NetworkView = ({
 }) => {
   const colors = {
     red: { bg: "bg-red-500", text: "text-red-500" },
-    orange: { bg: "bg-orange-500", text: "text-orange-500" },
+    orange: { bg: "bg-accent", text: "text-accent" },
   };
   const activeColor = colors[theme];
 

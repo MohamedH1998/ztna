@@ -8,6 +8,7 @@ type SidebarProps = {
   topOffset?: number;
   widthPx?: number;
   className?: string;
+  hasContent?: boolean;
 };
 
 export default function Sidebar({
@@ -15,6 +16,7 @@ export default function Sidebar({
   topOffset = 96,
   widthPx = 320,
   className,
+  hasContent = true,
 }: SidebarProps) {
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const activeIdRef = useRef(activeId);
@@ -124,54 +126,56 @@ export default function Sidebar({
           <div className="absolute left-5 top-0 h-full w-px bg-stone-200" />
         </div>
 
-        <nav className="h-full overflow-y-auto">
-          <div>
-            <div className="px-3 py-1.5">
-              <h2 className="text-3xl font-medium text-gray-900 dark:text-gray-100 font-cormorant">
-                Contents
-              </h2>
-            </div>
+        {hasContent && (
+          <nav className="h-full overflow-y-auto">
+            <div>
+              <div className="px-3 py-1.5">
+                <h2 className="text-3xl font-medium text-gray-900 dark:text-gray-100 font-cormorant">
+                  Contents
+                </h2>
+              </div>
 
-            <ul>
-              {items.map((item, idx) => {
-                const isActive = item.id === activeId;
-                return (
-                  <li key={item.id}>
-                    <a
-                      href={`#${item.id}`}
-                      onClick={(e) => scrollTo(e, item.id)}
-                      className={cn(
-                        "w-full text-left p-3 grid items-center relative",
-                        "border-t border-neutral-200 dark:border-neutral-800",
-                        "font-mono text-xs leading-4 tracking-wider uppercase",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-                        "transition-colors duration-200",
-                        "cursor-pointer",
-                        isActive
-                          ? "text-gray-900 dark:text-gray-100"
-                          : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
-                      )}
-                    >
-                      <span
+              <ul>
+                {items.map((item, idx) => {
+                  const isActive = item.id === activeId;
+                  return (
+                    <li key={item.id}>
+                      <a
+                        href={`#${item.id}`}
+                        onClick={(e) => scrollTo(e, item.id)}
                         className={cn(
-                          "w-0.5 bg-accent transition-opacity duration-200 absolute left-0 top-0 h-full",
-                          isActive ? "opacity-100" : "opacity-0"
+                          "w-full text-left p-3 grid items-center relative",
+                          "border-t border-neutral-200 dark:border-neutral-800",
+                          "font-mono text-xs leading-4 tracking-wider uppercase",
+                          "focus:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+                          "transition-colors duration-200",
+                          "cursor-pointer",
+                          isActive
+                            ? "text-gray-900 dark:text-gray-100"
+                            : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                         )}
-                      />
-                      <span className="flex items-center gap-3">
-                        <span className="w-7 text-gray-400">{idx + 1}</span>
-                        <span className="truncate">{item.label}</span>
-                      </span>
-                    </a>
-                    {idx === items.length - 1 && (
-                      <div className="border-b border-neutral-200 dark:border-neutral-800" />
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </nav>
+                      >
+                        <span
+                          className={cn(
+                            "w-0.5 bg-accent transition-opacity duration-200 absolute left-0 top-0 h-full",
+                            isActive ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        <span className="flex items-center gap-3">
+                          <span className="w-7 text-gray-400">{idx + 1}</span>
+                          <span className="truncate">{item.label}</span>
+                        </span>
+                      </a>
+                      {idx === items.length - 1 && (
+                        <div className="border-b border-neutral-200 dark:border-neutral-800" />
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </nav>
+        )}
       </div>
     </aside>
   );

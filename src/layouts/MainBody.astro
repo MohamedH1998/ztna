@@ -9,6 +9,8 @@ const zeroTrustEntries = await getCollection("products", ({ data }) => {
   return data.product === "zero-trust";
 });
 
+const { hasContent = true } = Astro.props;
+
 // Get unique sections sorted by order
 const sections = new Map();
 zeroTrustEntries.forEach((entry) => {
@@ -27,6 +29,7 @@ const ztnaCopy = Array.from(sections.values()).sort(
   class="min-h-screen flex text-neutral-900 dark:text-neutral-100 dark:bg-neutral-950"
 >
   <Sidebar
+    hasContent={hasContent}
     client:load
     items={[
       { id: "overview", label: "Overview" },
@@ -44,5 +47,4 @@ const ztnaCopy = Array.from(sections.values()).sort(
     </main>
     <Footer />
   </div>
-
 </body>

@@ -1,13 +1,17 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../../lib/utils";
-import { Slider } from "../slider" ;
-import { VisualizationBody, VisualizationContainer, VisualizationHeader } from "./layout";
+import { Slider } from "../slider";
+import {
+  VisualizationBody,
+  VisualizationContainer,
+  VisualizationHeader,
+} from "./layout";
 
 // Generate a deterministic permutation of 0..99 to ensure stable hydration
 const generateShuffledIndices = () => {
   const indices = Array.from({ length: 100 }, (_, i) => i);
-  
+
   // Simple deterministic random number generator (LCG)
   // Prevents hydration mismatches between server and client
   let seed = 42;
@@ -116,31 +120,32 @@ const ParallelTuner = () => {
 };
 
 const Cell = React.memo(({ active }: { active: boolean }) => {
+  const COLOR_STYLES = active
+    ? {
+        backgroundColor: "var(--color-accent)",
+        borderColor: "var(--color-accent)",
+      }
+    : {
+        backgroundColor: "var(--color-neutral-200)",
+        borderColor: "var(--color-neutral-300)",
+      };
   return (
     <div className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5">
       <motion.div
         layout
         initial={false}
         animate={{
-          scale: active ? 1 : 0.85,
-          backgroundColor: active ? "var(--color-active)" : "transparent",
-          borderColor: active ? "transparent" : "var(--color-inactive)",
+          scale: 1,
+          backgroundColor: COLOR_STYLES.backgroundColor,
+          borderColor: COLOR_STYLES.borderColor,
         }}
         transition={{
           type: "spring",
           stiffness: 400,
           damping: 25,
         }}
-        style={{
-          // @ts-ignore
-          "--color-active": "currentColor",
-          "--color-inactive": "var(--border-color)",
-        }}
         className={cn(
-          "w-full h-full rounded-[1px] border transition-colors duration-300",
-          active
-            ? "text-[#f56500] border-gray-500" // Active styles
-            : "text-gray-500 border-neutral-800 dark:border-neutral-200 bg-neutral-900 dark:bg-white" // Inactive styles (Legacy)
+          "w-full h-full rounded-[1px] border transition-colors duration-300"
         )}
       >
         {/* Inner Dot for Legacy State */}

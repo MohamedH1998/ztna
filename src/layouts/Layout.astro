@@ -11,6 +11,7 @@ const defaults = {
   description:
     "A visual guide to Cloudflare's Zero Trust Network Access system and architecture.",
   url: "https://ztna-ag3.pages.dev/",
+  image: "/opengraph-image.png",
   twitterCard: "summary_large_image",
   twitterSite: "@momito",
   twitterCreator: "@momito",
@@ -24,12 +25,14 @@ const {
   title,
   description,
   url,
+  image,
   twitterCard,
   twitterSite,
   twitterCreator,
   twitterTitle,
   twitterDescription,
   keywords,
+  hasContent = true,
 } = { ...defaults, ...Astro.props };
 ---
 
@@ -38,6 +41,8 @@ const {
   <MainHead
     title={title}
     description={description}
+    url={url}
+    image={image}
     twitterCard={twitterCard}
     twitterSite={twitterSite}
     twitterCreator={twitterCreator}
@@ -45,7 +50,7 @@ const {
     twitterDescription={twitterDescription}
     keywords={keywords}
   />
-  <MainBody>
+  <MainBody hasContent={hasContent}>
     <slot />
   </MainBody>
 </html>
