@@ -49,7 +49,12 @@ export function Slider({
   const position = ((value - min) / (max - min)) * 100;
 
   return (
-    <div className={cn("relative flex w-full items-center py-4 flex-col", className)}>
+    <div
+      className={cn(
+        "relative flex w-full items-center py-4 flex-col",
+        className
+      )}
+    >
       <div className={`relative ${height} w-full`}>
         {/* Background track */}
         <div className={`absolute inset-0 ${rounded} bg-neutral-200`} />
@@ -71,12 +76,12 @@ export function Slider({
           step={step}
           value={value}
           onChange={handleChange}
-          className="slider-custom absolute inset-0 cursor-pointer"
+          className="slider-custom absolute inset-0 cursor-pointer opacity-0"
         />
 
         {/* Visual thumb (cosmetic only) */}
         <div
-          className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
           style={{ left: `${position}%` }}
         >
           <div
@@ -85,12 +90,12 @@ export function Slider({
         </div>
       </div>
       {labels && (
-          <div className="flex justify-between py-2 w-full text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-            {labels.map((label, index) => (
-              <span key={index}>{label}</span>
-            ))}
-          </div>
-        )}
+        <div className="flex justify-between py-2 w-full text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+          {labels.map((label, index) => (
+            <span key={index}>{label}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
