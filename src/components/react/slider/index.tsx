@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 
 import { cn } from "../../../lib/utils";
 
@@ -31,19 +31,36 @@ export function Slider({
 }: SliderFiveProps) {
   const [internalValue, setInternalValue] = useState(defaultValue);
   const value = controlledValue ?? internalValue;
+  const rafIdRef = useRef<number | null>(null);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = Number(e.target.value);
 
-      if (onValueChange) {
-        onValueChange(newValue);
-      } else {
+      if (!onValueChange) {
         setInternalValue(newValue);
+      }
+
+      if (onValueChange) {
+        if (rafIdRef.current) {
+          cancelAnimationFrame(rafIdRef.current);
+        }
+
+        rafIdRef.current = requestAnimationFrame(() => {
+          onValueChange(newValue);
+        });
       }
     },
     [onValueChange]
   );
+
+  useEffect(() => {
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, []);
 
   // Calculate position for visual representation
   const position = ((value - min) / (max - min)) * 100;

@@ -47,4 +47,25 @@ const ztnaCopy = Array.from(sections.values()).sort(
     </main>
     <Footer />
   </div>
+
+  <script>
+    if (window.location.hash) {
+      const hash = window.location.hash.slice(1);
+
+      const scrollToHash = () => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      };
+
+      if (document.readyState === "complete") {
+        setTimeout(scrollToHash, 100);
+      } else {
+        window.addEventListener("load", () => {
+          setTimeout(scrollToHash, 100);
+        });
+      }
+    }
+  </script>
 </body>

@@ -3,12 +3,27 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Font display optimization to prevent FOIT */
+@font-face {
+  font-family: 'DM Mono';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Tight';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant';
+  font-display: swap;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 @theme {
-  --font-dm-mono: "DM Mono", monospace;
   --font-inter-tight: "Inter Tight", sans-serif;
   --font-cormorant: "Cormorant", serif;
   --color-accent: #f56500;

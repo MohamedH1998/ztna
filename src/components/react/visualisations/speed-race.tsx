@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../../lib/utils";
 import Tab from "../tab";
@@ -103,20 +103,26 @@ const SpeedRace = () => {
   const [racing, setRacing] = useState(false);
   const [completed, setCompleted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const currentScenario = SCENARIOS[activeTab];
 
   const handleRace = () => {
     if (racing) return;
-    setRacing(true);
-    setCompleted(false);
+
+    startTransition(() => {
+      setRacing(true);
+      setCompleted(false);
+    });
 
     // Reset after race duration (max duration is determined by animation logic)
     // Let's say max duration is 3s for the slowest.
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
-      setCompleted(true);
-      setRacing(false);
+      startTransition(() => {
+        setCompleted(true);
+        setRacing(false);
+      });
     }, 3500);
   };
 
@@ -135,12 +141,15 @@ const SpeedRace = () => {
   };
 
   const handleTabChange = (id: string) => {
-    setRacing(false);
-    setCompleted(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    setActiveTab(id as keyof typeof SCENARIOS);
+
+    startTransition(() => {
+      setRacing(false);
+      setCompleted(false);
+      setActiveTab(id as keyof typeof SCENARIOS);
+    });
   };
 
   return (
@@ -156,6 +165,7 @@ const SpeedRace = () => {
           )}
           activeTab={activeTab}
           onChange={handleTabChange}
+          disabled={isPending}
         />
         <div className="flex items-center gap-2">
           <ControlButton onClick={handleReset} disabled={!completed && !racing}>

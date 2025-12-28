@@ -14,9 +14,6 @@ importers:
       '@fontsource/cormorant':
         specifier: ^5.2.8
         version: 5.2.8
-      '@fontsource/dm-mono':
-        specifier: ^5.2.7
-        version: 5.2.7
       '@fontsource/inter-tight':
         specifier: ^5.2.7
         version: 5.2.7
@@ -337,9 +334,6 @@ packages:
 
   '@fontsource/cormorant@5.2.8':
     resolution: {integrity: sha512-VNiQ1dy/Km7UynaX0K+gtLLLtH+46SEfcoYcEjQhcs7/pEYTF3GThNNciWruv3AnVvTTSDPbCK/0BLBhdgYGUg==}
-
-  '@fontsource/dm-mono@5.2.7':
-    resolution: {integrity: sha512-Ma1az2atTVgQWuOWwjuxx26p/6A6CU9HBNKq1CFV6YKpKhpswnf9ry9Ql4+T6bTZzkdtSfS6tjJvqZOljVzIFQ==}
 
   '@fontsource/inter-tight@5.2.7':
     resolution: {integrity: sha512-44TmSfHdNQus/3MWOMIonUEnbxwQhiaFo2sfBJEGIE4c7TN+GO6kfLzsTH4Nu52BC9HDZFl9fPQ6Cwzp9vYTtQ==}
@@ -2263,8 +2257,6 @@ snapshots:
     optional: true
 
   '@fontsource/cormorant@5.2.8': {}
-
-  '@fontsource/dm-mono@5.2.7': {}
 
   '@fontsource/inter-tight@5.2.7': {}
 

@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useState, useRef } from "react";
 import { motion as m } from "motion/react";
 import clsx from "clsx";
 
@@ -47,6 +47,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
   const id = useId();
   const [pathD, setPathD] = useState("");
   const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 });
+  const prevDimensionsRef = useRef({ width: 0, height: 0 });
 
   // Calculate the gradient coordinates based on the reverse prop
   const gradientCoordinates = reverse
@@ -72,6 +73,15 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 
         const svgWidth = containerRect.width;
         const svgHeight = containerRect.height;
+
+        const widthDiff = Math.abs(svgWidth - prevDimensionsRef.current.width);
+        const heightDiff = Math.abs(svgHeight - prevDimensionsRef.current.height);
+
+        if (widthDiff < 5 && heightDiff < 5 && pathD !== "") {
+          return;
+        }
+
+        prevDimensionsRef.current = { width: svgWidth, height: svgHeight };
         setSvgDimensions({ width: svgWidth, height: svgHeight });
 
         const startX =
@@ -103,7 +113,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     let resizeTimeout: NodeJS.Timeout;
     const debouncedUpdate = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(updatePath, 100);
+      resizeTimeout = setTimeout(updatePath, 150);
     };
 
     // Initialize ResizeObserver with debouncing
