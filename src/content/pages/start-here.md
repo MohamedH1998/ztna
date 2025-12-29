@@ -12,7 +12,7 @@ I thought it might be useful to share my thinking.
 
 Enterprise software has multiple stakeholders, you don't want to bore heads of finance with technical jargon that means nothing to them when they're looking to understand the business value and justify spend. You also don't want to patronise a head of security who might want to dive deep into auth flows and policy enforcement mechanisms - both are equally important, but they need different things from the same guide.
 
-I considered following typical guide conventions where the deeper you give, the more technical you get, a self-selection of sorts, but if felt a bit lazy as the cognitive load of navigating for useful/meaningful information rests on the reader. Instead, I designed a depth slider that lets readers adjust the technical complexity on the fly, defaulting to moderate.
+I considered following typical guide conventions where the deeper you give, the more technical you get, a self-selection of sorts, but it felt a bit lazy as the cognitive load of navigating for useful/meaningful information rests on the reader. Instead, I designed a depth slider that lets readers adjust the technical complexity on the fly, defaulting to moderate.
 
 The goal was to make this adjustment as non-invasive as possible. No separate pages, no menu diving. Just a subtle control that curates a personalized experience based on who you are. It's also not just the same content at different levels of abstraction, but content serves a completely different function i.e., non-technical might convey concepts at a higher level of abstraction but would also touch on cost benefits and wider impact of these concepts.
 
