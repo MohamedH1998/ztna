@@ -62,11 +62,6 @@ const ConceptualSystem: React.FC = () => {
     setActiveStep(1);
   };
 
-  const toggleRequestType = () => {
-    if (isPlaying) return;
-    setRequestType((prev) => (prev === "initial" ? "subsequent" : "initial"));
-  };
-
   // VPN Logic
   const vpnUserActive = activeStep >= 1;
   const vpnCheckActive = requestType === "initial" && activeStep >= 2;
@@ -192,6 +187,7 @@ const ConceptualSystem: React.FC = () => {
         {requestType === "initial" ? (
           <>
             <AnimatedBeam
+              key="vpn-user-to-check"
               containerRef={containerRef}
               fromRef={vpnUserRef}
               toRef={vpnCheckRef}
@@ -208,6 +204,7 @@ const ConceptualSystem: React.FC = () => {
               pathWidth={2}
             />
             <AnimatedBeam
+              key="vpn-check-to-app"
               containerRef={containerRef}
               fromRef={vpnCheckRef}
               toRef={vpnAppRef}
@@ -226,11 +223,12 @@ const ConceptualSystem: React.FC = () => {
           <>
             {/* Active Beam Skipping Check (Square Elbow) */}
             <AnimatedBeam
+              key="vpn-user-to-app-direct"
               containerRef={containerRef}
               fromRef={vpnUserRef}
               toRef={vpnAppRef}
               duration={ANIMATION_STEP_DURATION * 2}
-              curvature={isMobile ? 50 : 70}
+              curvature={70}
               pathColor={vpnAppActive ? COLORS.active : COLORS.inactive}
               pathOpacity={vpnAppActive ? 1 : 0.3}
               gradientStartColor={

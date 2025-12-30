@@ -65,6 +65,8 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
       };
 
   useEffect(() => {
+    prevDimensionsRef.current = { width: 0, height: 0 };
+
     const updatePath = () => {
       if (containerRef.current && fromRef.current && toRef.current) {
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -77,7 +79,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         const widthDiff = Math.abs(svgWidth - prevDimensionsRef.current.width);
         const heightDiff = Math.abs(svgHeight - prevDimensionsRef.current.height);
 
-        if (widthDiff < 5 && heightDiff < 5 && pathD !== "") {
+        if (widthDiff < 5 && heightDiff < 5 && prevDimensionsRef.current.width !== 0) {
           return;
         }
 
