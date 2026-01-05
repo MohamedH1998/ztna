@@ -20,24 +20,31 @@ function getLevelConfig(value: number): LevelConfig {
 }
 
 function getInitialValue(): number {
-  if (typeof window === "undefined") return 50;
-
-  const params = new URLSearchParams(window.location.search);
-  const depthParam = params.get("depth");
-
-  if (depthParam !== null) {
-    const value = parseInt(depthParam, 10);
-    if (!isNaN(value) && value >= 0 && value <= 100) {
-      return value;
-    }
-  }
-
+  // Always return 50 for SSR to prevent hydration mismatch
+  // We'll sync with URL params after mount
   return 50;
 }
 
 export default function ContentSwitcher() {
   const [v, setV] = useState(getInitialValue);
   const urlUpdateTimerRef = useRef<number | undefined>(undefined);
+  const [mounted, setMounted] = useState(false);
+
+  // Sync with URL params after mount to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const depthParam = params.get("depth");
+
+      if (depthParam !== null) {
+        const value = parseInt(depthParam, 10);
+        if (!isNaN(value) && value >= 0 && value <= 100) {
+          setV(value);
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const { depth } = getLevelConfig(v);

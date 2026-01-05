@@ -47,8 +47,15 @@ const { innerText } = Astro.props;
 <script>
   import { depthStore } from "../../stores/depthStore";
 
+  // Store unsubscribe functions to prevent memory leaks
+  let unsubscribeFunctions: (() => void)[] = [];
+
   // Initialize all content switchers on the page
   function initContentSwitchers() {
+    // Clean up previous subscriptions
+    unsubscribeFunctions.forEach((unsub) => unsub());
+    unsubscribeFunctions = [];
+
     const switchers = document.querySelectorAll(".content-switcher-content");
 
     switchers.forEach((switcher) => {
@@ -62,8 +69,8 @@ const { innerText } = Astro.props;
         }
       });
 
-      // Subscribe to depth changes
-      depthStore.subscribe((depth) => {
+      // Subscribe to depth changes and store unsubscribe function
+      const unsubscribe = depthStore.subscribe((depth) => {
         variants.forEach((variant) => {
           if (variant.getAttribute("data-depth") === depth) {
             variant.classList.add("active");
@@ -72,6 +79,8 @@ const { innerText } = Astro.props;
           }
         });
       });
+
+      unsubscribeFunctions.push(unsubscribe);
     });
   }
 
@@ -80,4 +89,10 @@ const { innerText } = Astro.props;
 
   // Re-run after page navigation (for view transitions)
   document.addEventListener("astro:page-load", initContentSwitchers);
+
+  // Clean up on page unload
+  document.addEventListener("astro:before-preparation", () => {
+    unsubscribeFunctions.forEach((unsub) => unsub());
+    unsubscribeFunctions = [];
+  });
 </script>

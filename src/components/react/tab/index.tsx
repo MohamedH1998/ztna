@@ -15,17 +15,47 @@ interface TabProps {
 }
 
 const Tab: React.FC<TabProps> = ({ items, activeTab, onChange, disabled = false, className }) => {
+  const handleKeyDown = (e: React.KeyboardEvent, currentIndex: number) => {
+    let newIndex = currentIndex;
+    
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      newIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      newIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      newIndex = 0;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      newIndex = items.length - 1;
+    } else {
+      return;
+    }
+    
+    onChange(items[newIndex].id);
+  };
+
   return (
     <div
+      role="tablist"
+      aria-label="Content tabs"
       className={cn(
         "flex items-center gap-1 p-1 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-800",
         className
       )}
     >
-      {items.map((item) => (
+      {items.map((item, index) => (
         <button
           key={item.id}
+          role="tab"
+          aria-selected={activeTab === item.id}
+          aria-controls={`tabpanel-${item.id}`}
+          id={`tab-${item.id}`}
+          tabIndex={activeTab === item.id ? 0 : -1}
           onClick={() => onChange(item.id)}
+          onKeyDown={(e) => handleKeyDown(e, index)}
           disabled={disabled}
           className={cn(
             "px-3 py-1.5 h-8 text-[11px] font-medium transition-all flex-1 text-center whitespace-nowrap border border-transparent font-mono uppercase",
