@@ -107,8 +107,14 @@ const Legend = () => {
         {LEGEND_ITEMS.map((item, index) => (
           <div
             key={index}
+            tabIndex={0}
+            role="button"
+            aria-label={`${item.label}: ${item.description}`}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
+            onFocus={() => setHoveredIndex(index)}
+            onBlur={() => setHoveredIndex(null)}
+            className="focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-inset"
           >
             <LegendItem
               item={item}

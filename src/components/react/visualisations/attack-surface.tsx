@@ -67,9 +67,14 @@ const AttackSurface = () => {
     const queue = [startId];
     const visited = new Set([startId]);
     const currentRunId = runIdRef.current;
+    const timeouts: number[] = [];
 
     const spread = async () => {
-      if (queue.length === 0 || currentRunId !== runIdRef.current) return;
+      if (queue.length === 0 || currentRunId !== runIdRef.current) {
+        // Clean up any pending timeouts
+        timeouts.forEach((id) => clearTimeout(id));
+        return;
+      }
 
       const currentId = queue.shift()!;
 
@@ -87,7 +92,11 @@ const AttackSurface = () => {
       });
 
       for (const nid of neighbors) {
-        if (currentRunId !== runIdRef.current) return;
+        if (currentRunId !== runIdRef.current) {
+          // Clean up any pending timeouts
+          timeouts.forEach((id) => clearTimeout(id));
+          return;
+        }
         if (!visited.has(nid)) {
           visited.add(nid);
           queue.push(nid);
@@ -96,7 +105,10 @@ const AttackSurface = () => {
               n.id === nid ? { ...n, status: "compromised" } : n
             )
           );
-          await new Promise((r) => setTimeout(r, SPREAD_DELAY));
+          await new Promise((resolve) => {
+            const timeoutId = window.setTimeout(resolve, SPREAD_DELAY);
+            timeouts.push(timeoutId);
+          });
         }
       }
       spread();
@@ -129,7 +141,10 @@ const AttackSurface = () => {
           {nodes.map((node) => (
             <NodeComponent
               key={node.id}
-              {...node}
+              id={node.id}
+              status={node.status}
+              x={node.x}
+              y={node.y}
               mode={mode}
               onClick={() => handleHack(node.id)}
             />
@@ -155,6 +170,7 @@ const AttackSurface = () => {
 };
 
 const NodeComponent = ({
+  id,
   status,
   mode,
   onClick,
@@ -164,6 +180,7 @@ const NodeComponent = ({
       onClick={onClick}
       whileHover={{ scale: 0.95 }}
       whileTap={{ scale: 0.9 }}
+      aria-label={`Node ${id + 1}, ${status === "secure" ? "secure" : "compromised"}. Click to simulate breach.`}
       className={cn(
         "w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition-colors duration-200 cursor-pointer",
         status === "secure"
